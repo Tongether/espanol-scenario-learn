@@ -672,7 +672,7 @@ const scenarios = [
         lines: [
           { speaker: 'A', es: '¡Hola! ¿Cómo estás?', cn: '你好！你怎么样？' },
           { speaker: 'B', es: 'Muy bien, gracias. ¿Y tú?', cn: '很好，谢谢。你呢？' },
-          { speaker: 'A', es: 'Yo también, muy bien.', cn: '我也很好。' }
+          { speaker: 'A', es: 'Yo también estoy muy bien.', cn: '我也很好。' }
         ]
       },
       {
@@ -707,11 +707,11 @@ const scenarios = [
         lines: [
           { speaker: 'A', es: '¿Qué planes tienes para el fin de semana?', cn: '你周末有什么计划？' },
           { speaker: 'B', es: 'No tengo planes todavía. ¿Por qué?', cn: '还没计划呢。怎么了？' },
-          { speaker: 'A', es: '¿Te apetece ir al cine?', cn: '你想去看电影吗？' },
+          { speaker: 'A', es: '¿Te apetece ir al cine?', cn: '你想去看电影吗？', region: 'es' },
           { speaker: 'B', es: '¡Genial! ¿Qué película quieres ver?', cn: '太棒了！你想看什么电影？' },
           { speaker: 'A', es: 'Hay una nueva de acción que dicen que está muy buena.', cn: '有一部新的动作片，听说很不错。' },
-          { speaker: 'B', es: '¡Perfecto! ¿Quedamos a las siete?', cn: '完美！我们七点见？' },
-          { speaker: 'A', es: '¡Genial, quedamos a las siete!', cn: '好极了，七点见！' }
+          { speaker: 'B', es: '¡Perfecto! ¿Quedamos a las siete?', cn: '完美！我们七点见？', region: 'es' },
+          { speaker: 'A', es: '¡Genial, quedamos a las siete!', cn: '好极了，七点见！', region: 'es' }
         ]
       },
       {
@@ -736,7 +736,7 @@ const scenarios = [
         title: '找座位',
         lines: [
           { speaker: 'A', es: 'Buenas tardes. Mesa para dos, por favor.', cn: '下午好。两位的桌子，谢谢。' },
-          { speaker: 'B', es: 'Por aquí, favor.', cn: '这边请。' },
+          { speaker: 'B', es: 'Por aquí, por favor.', cn: '这边请。' },
           { speaker: 'A', es: '¿Podemos ver el menú?', cn: '能看一下菜单吗？' },
           { speaker: 'B', es: 'Claro, aquí tiene.', cn: '当然，给您。' }
         ]
@@ -758,14 +758,14 @@ const scenarios = [
           { speaker: 'B', es: '¿Junto o separado?', cn: '一起付还是分开？' },
           { speaker: 'A', es: 'Junto, por favor.', cn: '一起付。' },
           { speaker: 'B', es: 'Son veinticinco euros.', cn: '一共25欧元。' },
-          { speaker: 'A', es: 'Aquí tiene. Keep the change.', cn: '给您。不用找了。' }
+          { speaker: 'A', es: 'Quédese con el cambio.', cn: '不用找了。' }
         ]
       },
       {
         title: '评价食物',
         lines: [
           { speaker: 'A', es: 'La comida estaba deliciosa.', cn: '食物很美味。' },
-          { speaker: 'B', es: 'Me alegra. ¿Quieren postre?', cn: '很高兴。要甜点吗？' },
+          { speaker: 'B', es: 'Me alegra oírlo. ¿Quieren postre?', cn: '很高兴听到您这么说。要甜点吗？' },
           { speaker: 'A', es: 'Sí, dos flanes, por favor.', cn: '好的，两份焦糖布丁，谢谢。' }
         ]
       },
@@ -775,7 +775,7 @@ const scenarios = [
           { speaker: 'A', es: 'Disculpe, tengo alergia a los frutos secos.', cn: '打扰一下，我对坚果过敏。' },
           { speaker: 'B', es: 'Lo tendré en cuenta. ¿Este plato lleva nueces?', cn: '我会注意的。这道菜有核桃吗？' },
           { speaker: 'A', es: 'No, no lleva. Pero ¿pueden prepararlo sin gluten?', cn: '不，没有。但能做成无麸质的吗？' },
-          { speaker: 'B', es: 'Por supuesto, se lo preparo sin problema.', cn: '当然，我可以没问题地给您做。' }
+          { speaker: 'B', es: 'Por supuesto, se lo preparamos sin problema.', cn: '当然，我们可以没问题地给您做。' }
         ]
       },
       {
@@ -820,7 +820,7 @@ const scenarios = [
           { speaker: 'A', es: '¿Puede bajar un poco el precio?', cn: '能便宜一点吗？', practice: { cn: '能再便宜一点吗？', answer: '¿Puede bajar un poco más el precio?' } },
           { speaker: 'B', es: 'Lo siento, este es el precio final.', cn: '抱歉，这是最终价格了。' },
           { speaker: 'A', es: '¿Y si compro dos?', cn: '如果我买两个呢？' },
-          { speaker: 'B', es: 'Entonces le puedo hacer un diez por ciento.', cn: '那我给您打九折。' }
+          { speaker: 'B', es: 'Entonces le puedo hacer un diez por ciento de descuento.', cn: '那我给您打九折。' }
         ]
       },
       {
@@ -836,10 +836,10 @@ const scenarios = [
         title: '退换货',
         lines: [
           { speaker: 'A', es: 'Buenos días. Me gustaría devolver esto.', cn: '早上好。我想退掉这个。' },
-          { speaker: 'B', es: '¿Tienen el ticket de compra?', cn: '您有购物小票吗？' },
+          { speaker: 'B', es: '¿Tiene el ticket?', cn: '您有购物小票吗？' },
           { speaker: 'A', es: 'Sí, aquí lo tiene.', cn: '有的，给您。' },
           { speaker: 'B', es: '¿Le gustaría cambiarlo por otra talla?', cn: '您想换另一个尺码吗？' },
-          { speaker: 'A', es: 'Sí, ¿puedo cambiarlo por otra talla?', cn: '是的，我能换另一个尺码吗？' }
+          { speaker: 'A', es: 'Sí, ¿tiene una talla mediana?', cn: '是的，有中码吗？' }
         ]
       },
       {
@@ -884,7 +884,7 @@ const scenarios = [
         title: '打车',
         lines: [
           { speaker: 'A', es: 'Taxi. ¿Puede llevarme al aeropuerto?', cn: '出租车。能送我去机场吗？' },
-          { speaker: 'B', es: 'Suba.', cn: '上车吧。' },
+          { speaker: 'B', es: 'Sí, súbase, por favor.', cn: '好的，请上车。' },
           { speaker: 'A', es: '¿Cuánto tiempo tarda?', cn: '大概要多久？' },
           { speaker: 'B', es: 'Unos veinte minutos, depende del tráfico.', cn: '大概二十分钟，看交通情况。' }
         ]
@@ -892,7 +892,7 @@ const scenarios = [
       {
         title: '买票',
         lines: [
-          { speaker: 'A', es: 'Un billete de ida y vuelta, por favor.', cn: '一张往返票，谢谢。', practice: { cn: '两张往返票，谢谢。', answer: 'Dos billetes de ida y vuelta, por favor.' } },
+          { speaker: 'A', es: 'Un billete de ida y vuelta, por favor.', cn: '一张往返票，谢谢。', region: 'es', practice: { cn: '两张往返票，谢谢。', answer: 'Dos billetes de ida y vuelta, por favor.' } },
           { speaker: 'B', es: '¿Primera o segunda clase?', cn: '一等座还是二等座？' },
           { speaker: 'A', es: 'Segunda, por favor.', cn: '二等座，谢谢。' },
           { speaker: 'B', es: 'Son doce euros.', cn: '12欧元。' }
@@ -903,8 +903,8 @@ const scenarios = [
         lines: [
           { speaker: 'A', es: 'Buenos días. Quisiera alquilar un coche.', cn: '早上好。我想租一辆车。' },
           { speaker: 'B', es: '¿Por cuántos días?', cn: '租几天？' },
-          { speaker: 'A', es: 'Por tres días. ¿Necesito carnet internacional?', cn: '三天。我需要国际驾照吗？' },
-          { speaker: 'B', es: 'Sí, el carnet internacional es obligatorio.', cn: '是的，国际驾照是必需的。' },
+          { speaker: 'A', es: 'Por tres días. ¿Necesito carnet internacional?', cn: '三天。我需要国际驾照吗？', region: 'es' },
+          { speaker: 'B', es: 'Sí, el carnet internacional es obligatorio.', cn: '是的，国际驾照是必需的。', region: 'es' },
           { speaker: 'A', es: '¿Incluye seguro a todo riesgo?', cn: '包含全险吗？' },
           { speaker: 'B', es: 'Sí, está incluido en el precio.', cn: '是的，包含在价格里。' }
         ]
@@ -916,7 +916,7 @@ const scenarios = [
           { speaker: 'B', es: 'Sí, hay un problema técnico.', cn: '是的，有技术故障。' },
           { speaker: 'A', es: '¿Cuánto tiempo de demora hay?', cn: '延误多久？' },
           { speaker: 'B', es: 'Aproximadamente treinta minutos.', cn: '大约三十分钟。' },
-          { speaker: 'A', es: '¿Puedo cambiar mi billete?', cn: '我能换票吗？' },
+          { speaker: 'A', es: '¿Puedo cambiar mi billete?', cn: '我能换票吗？', region: 'es' },
           { speaker: 'B', es: 'Sí, vaya a la ventanilla de atención al cliente.', cn: '可以，请去客户服务窗口。' }
         ]
       }
@@ -941,7 +941,7 @@ const scenarios = [
         lines: [
           { speaker: 'A', es: '¿Cuál es la especialidad de esta ciudad?', cn: '这个城市的特色菜是什么？' },
           { speaker: 'B', es: 'El jamón ibérico y el gazpacho.', cn: '伊比利亚火腿和冷汤。' },
-          { speaker: 'A', es: '¿Dónde puedo probar el mejor?', cn: '哪里能吃到最好的？' },
+          { speaker: 'A', es: '¿Dónde puedo probar el mejor gazpacho?', cn: '哪里能吃到最好的冷汤？' },
           { speaker: 'B', es: 'En el mercado central. Hay muchos puestos.', cn: '在中央市场。有很多摊位。' }
         ]
       },
@@ -950,7 +950,7 @@ const scenarios = [
         lines: [
           { speaker: 'A', es: '¡Qué rico está esto!', cn: '这个好好吃！' },
           { speaker: 'B', es: '¿A qué sabe?', cn: '什么味道的？' },
-          { speaker: 'A', es: 'Sabe a carne con mucha especia.', cn: '尝起来像很多香料的肉。' },
+          { speaker: 'A', es: 'Sabe a carne con muchas especias.', cn: '尝起来像很多香料的肉。' },
           { speaker: 'B', es: 'Es tajín marroquí.', cn: '这是摩洛哥塔吉锅。' }
         ]
       },
@@ -958,7 +958,7 @@ const scenarios = [
         title: '找小吃',
         lines: [
           { speaker: 'A', es: '¿Dónde puedo encontrar tapas buenas?', cn: '哪里能找到好的小吃？' },
-          { speaker: 'B', es: 'Por el barrio viejo hay muchas bares de tapas.', cn: '老城区有很多小吃酒吧。' },
+          { speaker: 'B', es: 'Por el barrio viejo hay muchos bares de tapas.', cn: '老城区有很多小吃酒吧。' },
           { speaker: 'A', es: '¿Cuál me recomienda?', cn: '推荐哪家？' },
           { speaker: 'B', es: '"El Rinconcillo" es el más famoso.', cn: 'El Rinconcillo 最有名。' }
         ]
@@ -968,9 +968,9 @@ const scenarios = [
         lines: [
           { speaker: 'A', es: 'Buenas tardes. Quisiera reservar para cenar.', cn: '下午好。我想预订晚餐。' },
           { speaker: 'B', es: '¿Para cuántas personas?', cn: '几位？' },
-          { speaker: 'A', es: 'Para dos. ¿Tienen menú degustación?', cn: '两位。你们有品尝菜单吗？' },
-          { speaker: 'B', es: 'Sí, tenemos menú degustación de siete platos.', cn: '有的，我们有七道菜的品尝菜单。' },
-          { speaker: 'A', es: '¿Requieren código de vestimenta?', cn: '有着装要求吗？' },
+          { speaker: 'A', es: 'Para dos. ¿Tienen menú degustación?', cn: '两位。你们有品尝菜单吗？', region: 'es' },
+          { speaker: 'B', es: 'Sí, tenemos menú degustación de siete platos.', cn: '有的，我们有七道菜的品尝菜单。', region: 'es' },
+          { speaker: 'A', es: '¿Hay algún tipo de vestimenta obligatoria?', cn: '有着装要求吗？' },
           { speaker: 'B', es: 'Sí, se requiere vestimenta elegante.', cn: '是的，要求正装。' }
         ]
       },
@@ -995,12 +995,12 @@ const scenarios = [
       {
         title: '办理登机',
         lines: [
-          { speaker: 'A', es: 'Buenos días. Quisiera facturar mi vuelo.', cn: '早上好。我想办理登机手续。', practice: { cn: '我想取行李。', answer: 'Quisiera recoger mi equipaje.' } },
+          { speaker: 'A', es: 'Buenos días. Quisiera facturar mi vuelo.', cn: '早上好。我想办理登机手续。', region: 'es', practice: { cn: '我想取行李。', answer: 'Quisiera recoger mi equipaje.' } },
           { speaker: 'B', es: '¿Puedo ver su pasaporte y su billete, por favor?', cn: '请出示您的护照和机票。' },
           { speaker: 'A', es: 'Aquí tiene. ¿Puedo llevar una maleta de veinte kilos?', cn: '给您。我能带一件20公斤的行李吗？', practice: { cn: '我能带一件15公斤的行李吗？', answer: '¿Puedo llevar una maleta de quince kilos?' } },
           { speaker: 'B', es: 'Sí, el límite es veintitrés kilos. ¿Tiene equipaje de mano?', cn: '可以，上限是23公斤。您有手提行李吗？' },
           { speaker: 'A', es: 'Solo este maletín.', cn: '只有这个小提箱。' },
-          { speaker: 'B', es: 'Perfecto. Su asiento es el 12A, ventana.', cn: '好的。您的座位是12A，靠窗。' }
+          { speaker: 'B', es: 'Perfecto. Su asiento es el 12A, ventanilla.', cn: '好的。您的座位是12A，靠窗。' }
         ]
       },
       {
@@ -1009,7 +1009,7 @@ const scenarios = [
           { speaker: 'B', es: 'Lo siento, su maleta pesa veintiocho kilos. Tiene un exceso de cinco kilos.', cn: '抱歉，您的行李重28公斤。超重5公斤。' },
           { speaker: 'A', es: '¿Cuánto cuesta el exceso de equipaje?', cn: '超重行李费多少钱？' },
           { speaker: 'B', es: 'Son doce euros por kilo extra.', cn: '每超重一公斤12欧元。', practice: { cn: '每超重一公斤8欧元。', answer: 'Son ocho euros por kilo extra.' } },
-          { speaker: 'A', es: 'Vale. ¿Puedo sacar algunas cosas y llevarlas en el equipaje de mano?', cn: '好的。我能拿出一些东西放进行李箱吗？' },
+          { speaker: 'A', es: 'Vale. ¿Puedo sacar algunas cosas y meterlas en el equipaje de mano?', cn: '好的。我能拿出一些东西放进行李箱吗？' },
           { speaker: 'B', es: 'Claro, puede hacerlo ahí mismo.', cn: '当然，您可以在那边整理。' }
         ]
       },
@@ -1018,7 +1018,7 @@ const scenarios = [
         lines: [
           { speaker: 'B', es: '¿Tiene algo que declarar?', cn: '您有什么需要申报的吗？' },
           { speaker: 'A', es: 'No, solo ropa y objetos personales.', cn: '没有，只有衣物和个人用品。' },
-          { speaker: 'B', es: '¿Abra su maleta, por favor.', cn: '请打开您的行李箱。' },
+          { speaker: 'B', es: 'Abra su maleta, por favor.', cn: '请打开您的行李箱。' },
           { speaker: 'A', es: 'Claro, aquí tiene.', cn: '好的，给您。' },
           { speaker: 'B', es: 'Muy bien. Puede pasar. ¡Buen viaje!', cn: '很好。您可以通过了。祝您旅途愉快！' }
         ]
@@ -1048,10 +1048,10 @@ const scenarios = [
       {
         title: '转机问询',
         lines: [
-          { speaker: 'A', es: 'Hola, tengo un vuelo de conexión. ¿Dónde se facturan las maletas para el siguiente vuelo?', cn: '你好，我有转机航班。下一程的行李在哪里托运？', practice: { cn: '下一程的登机牌在哪里拿？', answer: '¿Dónde se recoge la tarjeta de embarque para el siguiente vuelo?' } },
+          { speaker: 'A', es: 'Hola, tengo un vuelo de conexión. ¿Dónde se facturan las maletas para el siguiente vuelo?', cn: '你好，我有转机航班。下一程的行李在哪里托运？', region: 'es', practice: { cn: '下一程的登机牌在哪里拿？', answer: '¿Dónde se recoge la tarjeta de embarque para el siguiente vuelo?' } },
           { speaker: 'B', es: 'Si su billete es con la misma aerolínea, las maletas se transfieren automáticamente.', cn: '如果您的机票是同一家航空公司的，行李会自动转运。' },
           { speaker: 'A', es: 'Son aerolíneas diferentes. ¿Qué tengo que hacer?', cn: '是不同的航空公司。我需要怎么做？' },
-          { speaker: 'B', es: 'Tiene que recoger sus maletas, pasar por aduanas y facturar de nuevo en el mostrador de su aerolínea.', cn: '您需要取出行李，过海关，然后去您的航空公司柜台重新托运。' },
+          { speaker: 'B', es: 'Tiene que recoger sus maletas, pasar por aduanas y facturar de nuevo en el mostrador de su aerolínea.', cn: '您需要取出行李，过海关，然后去您的航空公司柜台重新托运。', region: 'es' },
           { speaker: 'A', es: '¿Cuánto tiempo necesito para la conexión?', cn: '转机需要预留多少时间？' },
           { speaker: 'B', es: 'Le recomiendo al menos dos horas.', cn: '建议至少两小时。' }
         ]
@@ -1071,7 +1071,7 @@ const scenarios = [
           { speaker: 'A', es: 'Exacto. ¿Incluye desayuno?', cn: '没错。含早餐吗？' },
           { speaker: 'B', es: 'Sí, el desayuno se sirve de siete a diez. ¿Puedo ver su documento de identidad?', cn: '含的，早餐七点到十点。请出示您的身份证件。' },
           { speaker: 'A', es: 'Aquí tiene mi pasaporte.', cn: '这是我的护照。' },
-          { speaker: 'B', es: 'Perfecto. Su habitación es la 305, en la tercera planta. Aquí tiene la llave.', cn: '好的。您的房间是305，在三楼。这是钥匙。' }
+          { speaker: 'B', es: 'Perfecto. Su habitación es la 305, en la tercera planta. Aquí tiene la llave.', cn: '好的。您的房间是305，在三楼。这是钥匙。', region: 'es' }
         ]
       },
       {
@@ -1100,7 +1100,7 @@ const scenarios = [
         title: '房间报修',
         lines: [
           { speaker: 'A', es: 'Hola, tengo un problema en mi habitación.', cn: '你好，我房间有个问题。' },
-          { speaker: 'B', es: '¿Qué le pasa?', cn: '什么问题？' },
+          { speaker: 'B', es: '¿Cuál es el problema?', cn: '什么问题？' },
           { speaker: 'A', es: 'El aire acondicionado no funciona y el grifo del baño gotea.', cn: '空调不工作，浴室水龙头漏水。', practice: { cn: 'WiFi不工作。', answer: 'El WiFi no funciona.' } },
           { speaker: 'B', es: 'Lo siento mucho. Mandaré a un técnico de inmediato.', cn: '非常抱歉。我马上派维修人员过去。' },
           { speaker: 'A', es: '¿Puedo cambiar de habitación si no se puede arreglar?', cn: '如果修不好我能换房间吗？' },
@@ -1139,7 +1139,7 @@ const scenarios = [
         title: '兑换欧元',
         lines: [
           { speaker: 'A', es: 'Hola, quisiera cambiar dólares a euros. ¿Cuál es el tipo de cambio de hoy?', cn: '你好，我想把美元换成欧元。今天的汇率是多少？', practice: { cn: '我想把英镑换成欧元。', answer: 'Quisiera cambiar libras a euros.' } },
-          { speaker: 'B', es: 'Hoy el dólar está a cero con noventa y dos euros.', cn: '今天1美元兑0.92欧元。' },
+          { speaker: 'B', es: 'Hoy el tipo de cambio es 0,92 euros por dólar.', cn: '今天1美元兑0.92欧元。' },
           { speaker: 'A', es: 'Quisiera cambiar doscientos dólares.', cn: '我想换200美元。', practice: { cn: '我想换500美元。', answer: 'Quisiera cambiar quinientos dólares.' } },
           { speaker: 'B', es: 'Son ciento ochenta y cuatro euros. ¿En billetes grandes o pequeños?', cn: '一共184欧元。要大钞还是小钞？' },
           { speaker: 'A', es: 'Mezclados, por favor. ¿Cobran comisión?', cn: '混合的，谢谢。收手续费吗？' },
@@ -1150,8 +1150,8 @@ const scenarios = [
         title: '开立账户',
         lines: [
           { speaker: 'A', es: 'Buenos días. Soy estudiante y quisiera abrir una cuenta bancaria.', cn: '早上好。我是学生，想开一个银行账户。' },
-          { speaker: 'B', es: 'Bienvenido. ¿Tiene su NIE o pasaporte?', cn: '欢迎。您有NIE（外国人居留号）或护照吗？' },
-          { speaker: 'A', es: 'Sí, aquí tengo mi NIE y el certificado de matrícula de la universidad.', cn: '有的，这是我的NIE和大学注册证明。' },
+          { speaker: 'B', es: 'Bienvenido. ¿Tiene su NIE o pasaporte?', cn: '欢迎。您有NIE（外国人居留号）或护照吗？', region: 'es' },
+          { speaker: 'A', es: 'Sí, aquí tengo mi NIE y el certificado de matrícula de la universidad.', cn: '有的，这是我的NIE和大学注册证明。', region: 'es' },
           { speaker: 'B', es: 'Perfecto. Ofrecemos una cuenta joven sin comisiones para estudiantes.', cn: '好的。我们为学生提供免手续费的学生账户。' },
           { speaker: 'A', es: '¿Incluye tarjeta de débito?', cn: '包含借记卡吗？' },
           { speaker: 'B', es: 'Sí, y también una app para gestionar su dinero desde el móvil.', cn: '包含，还有一个手机App可以管理资金。' }
@@ -1223,11 +1223,11 @@ const scenarios = [
         title: '预约门诊',
         lines: [
           { speaker: 'A', es: 'Hola, quisiera pedir una cita con el médico.', cn: '你好，我想预约看医生。' },
-          { speaker: 'B', es: '¿Tiene tarjeta sanitaria?', cn: '您有医保卡吗？' },
+          { speaker: 'B', es: '¿Tiene tarjeta sanitaria?', cn: '您有医保卡吗？', region: 'es' },
           { speaker: 'A', es: 'Sí, soy estudiante y tengo el seguro universitario.', cn: '有的，我是学生，有大学保险。' },
           { speaker: 'B', es: 'Perfecto. ¿Qué síntomas tiene?', cn: '好的。您有什么症状？' },
           { speaker: 'A', es: 'Fiebre alta y dolor de estómago desde hace tres días.', cn: '高烧和胃痛已经三天了。', practice: { cn: '头痛和发烧已经两天了。', answer: 'Dolor de cabeza y fiebre desde hace dos días.' } },
-          { speaker: 'B', es: 'Le doy una cita hoy a las cuatro con el doctor García. Consultorio tres, segunda planta.', cn: '给您约今天四点García医生。三楼三号诊室。' }
+          { speaker: 'B', es: 'Le doy una cita hoy a las cuatro con el doctor García. Consultorio tres, segunda planta.', cn: '给您约今天四点García医生。三楼三号诊室。', region: 'es' }
         ]
       },
       {
@@ -1263,7 +1263,7 @@ const scenarios = [
         title: '新生报到',
         lines: [
           { speaker: 'A', es: 'Hola, soy estudiante nuevo. ¿Dónde puedo recoger mi tarjeta de estudiante?', cn: '你好，我是新生。在哪里领学生卡？', practice: { cn: '在哪里领课程表？', answer: '¿Dónde puedo recoger mi horario de clases?' } },
-          { speaker: 'B', es: 'En la secretaría, segunda planta del edificio central.', cn: '在教务处，主楼二层。' },
+          { speaker: 'B', es: 'En la secretaría, segunda planta del edificio central.', cn: '在教务处，主楼二层。', region: 'es' },
           { speaker: 'A', es: '¿Qué documentos necesito?', cn: '需要什么材料？' },
           { speaker: 'B', es: 'Su pasaporte, la carta de admisión y dos fotos tamaño carné.', cn: '护照、录取通知书和两张证件照。' },
           { speaker: 'A', es: '¿Dónde está la biblioteca?', cn: '图书馆在哪里？' },
@@ -1289,7 +1289,7 @@ const scenarios = [
           { speaker: 'A', es: 'Sí, aquí tiene. ¿Cuánto tiempo puedo tenerlo?', cn: '有的，给您。我能借多久？' },
           { speaker: 'B', es: 'Quince días. Puede renovarlo una vez por otros quince días.', cn: '15天。可以续借一次，再加15天。' },
           { speaker: 'A', es: '¿Dónde están los libros de gramática española?', cn: '西班牙语语法书在哪里？', practice: { cn: '西班牙语小说在哪里？', answer: '¿Dónde están las novelas en español?' } },
-          { speaker: 'B', es: 'En la sección de lenguas, tercera planta, pasillo B.', cn: '在语言区，三楼，B通道。' }
+          { speaker: 'B', es: 'En la sección de lenguas, tercera planta, pasillo B.', cn: '在语言区，三楼，B通道。', region: 'es' },}
         ]
       },
       {
@@ -1297,7 +1297,7 @@ const scenarios = [
         lines: [
           { speaker: 'A', es: 'Perdone, ¿sabe dónde está el aula 204?', cn: '打扰一下，您知道204教室在哪里吗？' },
           { speaker: 'B', es: 'Sí, en el edificio de letras, segunda planta.', cn: '知道，在文学院楼二层。' },
-          { speaker: 'A', es: '¿Es este edificio de aquí?', cn: '是这栋楼吗？' },
+          { speaker: 'A', es: '¿Es este edificio?', cn: '是这栋楼吗？' },
           { speaker: 'B', es: 'No, el de letras está al otro lado del jardín. Siga por este camino y gire a la derecha.', cn: '不是，文学院楼在花园另一边。沿着这条路走然后右转。' },
           { speaker: 'A', es: 'Muchas gracias.', cn: '非常感谢。' }
         ]
@@ -1372,7 +1372,7 @@ const scenarios = [
           { speaker: 'A', es: '¿Quién es la persona del cuadro?', cn: '画里的人是谁？' },
           { speaker: 'B', es: 'Es el Papa Inocencio X. Es uno de los retratos más famosos del museo.', cn: '是教皇Inocencio X。这是博物馆最著名的肖像画之一。' },
           { speaker: 'A', es: '¡Qué impresionante! ¿Hay más obras de Velázquez en esta sala?', cn: '太震撼了！这个展厅还有更多Velázquez的作品吗？' },
-          { speaker: 'B', es: 'Sí, al fondo. También tiene "Las Meninas", su obra más conocida.', cn: '有，在后面。还有"Las Meninas"，他最著名的作品。' }
+          { speaker: 'B', es: 'Sí, al fondo. También está "Las Meninas", su obra más conocida.', cn: '有，在后面。还有"Las Meninas"，他最著名的作品。' }
         ]
       },
       {
@@ -1401,7 +1401,7 @@ const scenarios = [
           { speaker: 'A', es: 'Creo que lo dejé en el restaurante de esta mañana.', cn: '我想可能落在今天早上的餐厅了。' },
           { speaker: 'B', es: 'Vamos a llamar al restaurante. Si no está allí, tiene que ir a su embajada.', cn: '我们先打电话给餐厅。如果不在那里，您需要去大使馆。' },
           { speaker: 'A', es: '¿Dónde está la embajada de China?', cn: '中国大使馆在哪里？' },
-          { speaker: 'B', es: 'Está en la calle Serrano, número 43. Le acompaño si quiere.', cn: '在Serrano大街43号。如果您需要我陪您去。' }
+          { speaker: 'B', es: 'Está en la calle Serrano, número 43. Puedo acompañarle si quiere.', cn: '在Serrano大街43号。如果您需要我可以陪您去。' }
         ]
       },
       {
