@@ -2,7 +2,7 @@
 
 一个面向中文母语者的西班牙语场景化学习工具。不用背单词书，直接走进 12 个真实场景，学即用。
 
-**在线体验**：[https://Tongether.github.io/espanol-scenario-learn](https://Tongether.github.io/espanol-scenario-learn)
+**在线体验**：[https://你的用户名.github.io/espanol-scenario-learn](https://你的用户名.github.io/espanol-scenario-learn)（部署后替换）
 
 ---
 
@@ -76,6 +76,7 @@ python -m http.server 8000
 | v1.2 | 新增 7 个场景（机场、酒店、银行、药店、校园、影院、紧急求助） |
 | v1.3 | 词典增加搜索功能、内置在线翻译、角色扮演改名为对话示范 |
 | v1.4 | 修复字母卡片双例词问题、翻译 API 升级为 LibreTranslate |
+| v1.5 | **内容质量审核**：修正 21 处语法和表达错误，为西班牙特有词汇添加 🇪🇸 地域标注 |
 
 ---
 
