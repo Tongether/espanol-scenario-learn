@@ -2,7 +2,7 @@
 
 一个面向中文母语者的西班牙语场景化学习工具。不用背单词书，直接走进 12 个真实场景，学即用。
 
-**在线体验**：[https://Tongether.github.io/espanol-scenario-learn](https://Tongether.github.io/espanol-scenario-learn)
+**在线体验**：[https://你的用户名.github.io/espanol-scenario-learn](https://你的用户名.github.io/espanol-scenario-learn)（部署后替换）
 
 ---
 
