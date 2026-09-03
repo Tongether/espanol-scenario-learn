@@ -155,34 +155,55 @@ body {
   padding: 4px 10px; border-radius: 12px; font-size: 0.75rem;
   background: var(--bg); color: var(--text-light);
 }
-.scenario-card .card-progress {
-  margin-top: 14px; display: flex; align-items: center; gap: 8px;
-  font-size: 0.75rem; color: var(--text-light);
-}
-.scenario-card .progress-bar {
-  flex: 1; height: 4px; border-radius: 2px; background: var(--border);
-  overflow: hidden;
-}
-.scenario-card .progress-bar span {
-  display: block; height: 100%; background: var(--accent-green);
-  transition: width 0.3s ease;
-}
-.resume-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; flex-wrap: wrap;
-  background: var(--card); border: 1px solid var(--border);
-  border-left: 4px solid var(--accent-green);
-  border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 20px;
-  box-shadow: var(--shadow);
-}
-.resume-bar p { font-size: 0.9rem; color: var(--text); }
-.resume-bar button {
-  border: none; cursor: pointer; font-family: var(--font);
-  background: var(--accent-green); color: #fff;
-  padding: 8px 16px; border-radius: var(--radius-xs); font-size: 0.85rem;
-}
-.fav-btn.active { background: var(--accent-yellow); color: var(--secondary); }
 .region-tag { font-size: 0.85em; cursor: help; vertical-align: middle; }
+.alt-region {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-top: 12px; padding: 10px 14px;
+  background: var(--bg); border-left: 3px solid var(--accent-green);
+  border-radius: var(--radius-xs); font-size: 0.9rem;
+}
+.alt-region .alt-label { color: var(--accent-green); font-weight: 600; white-space: nowrap; }
+.alt-region .alt-es { font-weight: 500; }
+.alt-region .alt-note { color: var(--text-light); font-size: 0.8rem; }
+/* ===== Region Guide ===== */
+.region-intro {
+  background: var(--card); border-radius: var(--radius); padding: 20px 24px;
+  box-shadow: var(--shadow); margin-bottom: 24px; font-size: 0.9rem;
+  line-height: 1.7; color: var(--text);
+}
+.region-section { margin-bottom: 32px; }
+.region-section > h3 {
+  font-size: 1rem; font-weight: 600; color: var(--secondary);
+  margin-bottom: 14px; padding-left: 12px;
+  border-left: 3px solid var(--primary);
+}
+.region-card {
+  background: var(--card); border-radius: var(--radius-sm); padding: 16px 20px;
+  box-shadow: var(--shadow); margin-bottom: 14px;
+}
+.region-card h4 { font-size: 0.92rem; color: var(--secondary); margin-bottom: 8px; }
+.region-card p { font-size: 0.86rem; color: var(--text-light); line-height: 1.6; }
+.region-pair { display: flex; gap: 12px; flex-wrap: wrap; margin: 10px 0; }
+.region-pair > div {
+  flex: 1 1 200px; padding: 10px 14px; border-radius: var(--radius-xs);
+  font-size: 0.88rem;
+}
+.region-pair .side-es { background: #FDF1EC; border-left: 3px solid var(--primary); }
+.region-pair .side-latam { background: #EEF6F2; border-left: 3px solid var(--accent-green); }
+.region-pair .side-label { display: block; font-size: 0.72rem; color: var(--text-light); margin-bottom: 4px; }
+.region-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+.region-table th, .region-table td {
+  padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border);
+}
+.region-table th { background: var(--bg); color: var(--text-light); font-weight: 600; }
+.region-table td:first-child { color: var(--text-light); white-space: nowrap; }
+.region-warn {
+  background: #FEF6E7; border-left: 4px solid var(--accent-yellow);
+  border-radius: var(--radius-xs); padding: 14px 18px; margin-bottom: 12px;
+}
+.region-warn h4 { font-size: 0.9rem; color: var(--secondary); margin-bottom: 6px; }
+.region-warn p { font-size: 0.85rem; color: var(--text); line-height: 1.6; }
+.region-warn .where { color: var(--primary-dark); font-weight: 600; }
 /* ===== Alphabet Section ===== */
 .alpha-category { margin-bottom: 32px; }
 .alpha-category h3 {
@@ -614,6 +635,7 @@ body {
     <button class="tab-btn" data-tab="numbers" onclick="switchTab('numbers')">数字发音</button>
     <button class="tab-btn" data-tab="vocab" onclick="switchTab('vocab')">高频词汇</button>
     <button class="tab-btn" data-tab="roleplay" onclick="switchTab('roleplay')">对话示范</button>
+    <button class="tab-btn" data-tab="region" onclick="switchTab('region')">地域差异</button>
   </nav>
 </header>
 
@@ -634,10 +656,6 @@ body {
   </div>
   <div class="section-title">选择场景</div>
   <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:20px;">点进去看完整对话，再点句子拆解语法</p>
-  <div class="resume-bar" id="resumeBar" style="display:none;">
-    <p id="resumeText"></p>
-    <button onclick="resumeLastScene()">继续学习</button>
-  </div>
   <div class="scenario-grid" id="scenarioGrid"></div>
 </div>
 
@@ -696,6 +714,11 @@ body {
   <div id="detailContent"></div>
 </div>
 
+<div id="tab-region" class="tab-content">
+  <div class="section-title">西班牙 vs 拉美西语</div>
+  <div id="regionContent"></div>
+</div>
+
 </main>
 
 <!-- Score Banner -->
@@ -750,11 +773,11 @@ const scenarios = [
         lines: [
           { speaker: 'A', es: '¿Qué planes tienes para el fin de semana?', cn: '你周末有什么计划？' },
           { speaker: 'B', es: 'No tengo planes todavía. ¿Por qué?', cn: '还没计划呢。怎么了？' },
-          { speaker: 'A', es: '¿Te apetece ir al cine?', cn: '你想去看电影吗？', region: 'es' },
+          { speaker: 'A', es: '¿Te apetece ir al cine?', cn: '你想去看电影吗？', region: 'es', alt: { region: 'latam', es: '¿Tienes ganas de ir al cine?', note: 'apetecer 在拉美不常用 → tener ganas de' } },
           { speaker: 'B', es: '¡Genial! ¿Qué película quieres ver?', cn: '太棒了！你想看什么电影？' },
           { speaker: 'A', es: 'Hay una nueva de acción que dicen que está muy buena.', cn: '有一部新的动作片，听说很不错。' },
-          { speaker: 'B', es: '¡Perfecto! ¿Quedamos a las siete?', cn: '完美！我们七点见？', region: 'es' },
-          { speaker: 'A', es: '¡Genial, quedamos a las siete!', cn: '好极了，七点见！', region: 'es' }
+          { speaker: 'B', es: '¡Perfecto! ¿Quedamos a las siete?', cn: '完美！我们七点见？', region: 'es', alt: { region: 'latam', es: '¡Perfecto! ¿Nos vemos a las siete?', note: 'quedar（约见）→ verse' } },
+          { speaker: 'A', es: '¡Genial, quedamos a las siete!', cn: '好极了，七点见！', region: 'es', alt: { region: 'latam', es: '¡Genial, nos vemos a las siete!', note: 'quedar（约见）→ verse' } }
         ]
       },
       {
@@ -935,7 +958,7 @@ const scenarios = [
       {
         title: '买票',
         lines: [
-          { speaker: 'A', es: 'Un billete de ida y vuelta, por favor.', cn: '一张往返票，谢谢。', region: 'es', practice: { cn: '两张往返票，谢谢。', answer: 'Dos billetes de ida y vuelta, por favor.' } },
+          { speaker: 'A', es: 'Un billete de ida y vuelta, por favor.', cn: '一张往返票，谢谢。', region: 'es', alt: { region: 'latam', es: 'Un boleto de ida y vuelta, por favor.', note: 'billete → boleto / pasaje' }, practice: { cn: '两张往返票，谢谢。', answer: 'Dos billetes de ida y vuelta, por favor.' } },
           { speaker: 'B', es: '¿Primera o segunda clase?', cn: '一等座还是二等座？' },
           { speaker: 'A', es: 'Segunda, por favor.', cn: '二等座，谢谢。' },
           { speaker: 'B', es: 'Son doce euros.', cn: '12欧元。' }
@@ -946,8 +969,8 @@ const scenarios = [
         lines: [
           { speaker: 'A', es: 'Buenos días. Quisiera alquilar un coche.', cn: '早上好。我想租一辆车。' },
           { speaker: 'B', es: '¿Por cuántos días?', cn: '租几天？' },
-          { speaker: 'A', es: 'Por tres días. ¿Necesito carnet internacional?', cn: '三天。我需要国际驾照吗？', region: 'es' },
-          { speaker: 'B', es: 'Sí, el carnet internacional es obligatorio.', cn: '是的，国际驾照是必需的。', region: 'es' },
+          { speaker: 'A', es: 'Por tres días. ¿Necesito carnet internacional?', cn: '三天。我需要国际驾照吗？', region: 'es', alt: { region: 'latam', es: 'Por tres días. ¿Necesito licencia internacional?', note: 'carnet de conducir → licencia de conducir' } },
+          { speaker: 'B', es: 'Sí, el carnet internacional es obligatorio.', cn: '是的，国际驾照是必需的。', region: 'es', alt: { region: 'latam', es: 'Sí, la licencia internacional es obligatoria.', note: 'carnet → licencia（注意阴阳性随之改变）' } },
           { speaker: 'A', es: '¿Incluye seguro a todo riesgo?', cn: '包含全险吗？' },
           { speaker: 'B', es: 'Sí, está incluido en el precio.', cn: '是的，包含在价格里。' }
         ]
@@ -959,7 +982,7 @@ const scenarios = [
           { speaker: 'B', es: 'Sí, hay un problema técnico.', cn: '是的，有技术故障。' },
           { speaker: 'A', es: '¿Cuánto tiempo de demora hay?', cn: '延误多久？' },
           { speaker: 'B', es: 'Aproximadamente treinta minutos.', cn: '大约三十分钟。' },
-          { speaker: 'A', es: '¿Puedo cambiar mi billete?', cn: '我能换票吗？', region: 'es' },
+          { speaker: 'A', es: '¿Puedo cambiar mi billete?', cn: '我能换票吗？', region: 'es', alt: { region: 'latam', es: '¿Puedo cambiar mi boleto?', note: 'billete → boleto / pasaje' } },
           { speaker: 'B', es: 'Sí, vaya a la ventanilla de atención al cliente.', cn: '可以，请去客户服务窗口。' }
         ]
       }
@@ -1038,8 +1061,8 @@ const scenarios = [
       {
         title: '办理登机',
         lines: [
-          { speaker: 'A', es: 'Buenos días. Quisiera facturar mi vuelo.', cn: '早上好。我想办理登机手续。', region: 'es', practice: { cn: '我想取行李。', answer: 'Quisiera recoger mi equipaje.' } },
-          { speaker: 'B', es: '¿Puedo ver su pasaporte y su billete, por favor?', cn: '请出示您的护照和机票。' },
+          { speaker: 'A', es: 'Buenos días. Quisiera facturar mi vuelo.', cn: '早上好。我想办理登机手续。', region: 'es', alt: { region: 'latam', es: 'Buenos días. Quisiera documentar mi vuelo.', note: 'facturar（托运/办登机）→ documentar（墨西哥）/ hacer el check-in' }, practice: { cn: '我想取行李。', answer: 'Quisiera recoger mi equipaje.' } },
+          { speaker: 'B', es: '¿Puedo ver su pasaporte y su billete, por favor?', cn: '请出示您的护照和机票。', region: 'es', alt: { region: 'latam', es: '¿Puedo ver su pasaporte y su boleto, por favor?', note: 'billete → boleto' } },
           { speaker: 'A', es: 'Aquí tiene. ¿Puedo llevar una maleta de veinte kilos?', cn: '给您。我能带一件20公斤的行李吗？', practice: { cn: '我能带一件15公斤的行李吗？', answer: '¿Puedo llevar una maleta de quince kilos?' } },
           { speaker: 'B', es: 'Sí, el límite es veintitrés kilos. ¿Tiene equipaje de mano?', cn: '可以，上限是23公斤。您有手提行李吗？' },
           { speaker: 'A', es: 'Solo este maletín.', cn: '只有这个小提箱。' },
@@ -1091,10 +1114,10 @@ const scenarios = [
       {
         title: '转机问询',
         lines: [
-          { speaker: 'A', es: 'Hola, tengo un vuelo de conexión. ¿Dónde se facturan las maletas para el siguiente vuelo?', cn: '你好，我有转机航班。下一程的行李在哪里托运？', region: 'es', practice: { cn: '下一程的登机牌在哪里拿？', answer: '¿Dónde se recoge la tarjeta de embarque para el siguiente vuelo?' } },
-          { speaker: 'B', es: 'Si su billete es con la misma aerolínea, las maletas se transfieren automáticamente.', cn: '如果您的机票是同一家航空公司的，行李会自动转运。' },
+          { speaker: 'A', es: 'Hola, tengo un vuelo de conexión. ¿Dónde se facturan las maletas para el siguiente vuelo?', cn: '你好，我有转机航班。下一程的行李在哪里托运？', region: 'es', alt: { region: 'latam', es: 'Hola, tengo un vuelo de conexión. ¿Dónde se documentan las maletas para el siguiente vuelo?', note: 'facturar → documentar（墨西哥）' }, practice: { cn: '下一程的登机牌在哪里拿？', answer: '¿Dónde se recoge la tarjeta de embarque para el siguiente vuelo?' } },
+          { speaker: 'B', es: 'Si su billete es con la misma aerolínea, las maletas se transfieren automáticamente.', cn: '如果您的机票是同一家航空公司的，行李会自动转运。', region: 'es', alt: { region: 'latam', es: 'Si su boleto es con la misma aerolínea, las maletas se transfieren automáticamente.', note: 'billete → boleto' } },
           { speaker: 'A', es: 'Son aerolíneas diferentes. ¿Qué tengo que hacer?', cn: '是不同的航空公司。我需要怎么做？' },
-          { speaker: 'B', es: 'Tiene que recoger sus maletas, pasar por aduanas y facturar de nuevo en el mostrador de su aerolínea.', cn: '您需要取出行李，过海关，然后去您的航空公司柜台重新托运。', region: 'es' },
+          { speaker: 'B', es: 'Tiene que recoger sus maletas, pasar por aduanas y facturar de nuevo en el mostrador de su aerolínea.', cn: '您需要取出行李，过海关，然后去您的航空公司柜台重新托运。', region: 'es', alt: { region: 'latam', es: 'Tiene que recoger sus maletas, pasar por aduanas y documentar de nuevo en el mostrador de su aerolínea.', note: 'facturar → documentar（墨西哥）' } },
           { speaker: 'A', es: '¿Cuánto tiempo necesito para la conexión?', cn: '转机需要预留多少时间？' },
           { speaker: 'B', es: 'Le recomiendo al menos dos horas.', cn: '建议至少两小时。' }
         ]
@@ -1114,7 +1137,7 @@ const scenarios = [
           { speaker: 'A', es: 'Exacto. ¿Incluye desayuno?', cn: '没错。含早餐吗？' },
           { speaker: 'B', es: 'Sí, el desayuno se sirve de siete a diez. ¿Puedo ver su documento de identidad?', cn: '含的，早餐七点到十点。请出示您的身份证件。' },
           { speaker: 'A', es: 'Aquí tiene mi pasaporte.', cn: '这是我的护照。' },
-          { speaker: 'B', es: 'Perfecto. Su habitación es la 305, en la tercera planta. Aquí tiene la llave.', cn: '好的。您的房间是305，在三楼。这是钥匙。', region: 'es' }
+          { speaker: 'B', es: 'Perfecto. Su habitación es la 305, en la tercera planta. Aquí tiene la llave.', cn: '好的。您的房间是305，在三楼。这是钥匙。', region: 'es', alt: { region: 'latam', es: 'Perfecto. Su habitación es la 305, en el tercer piso. Aquí tiene la llave.', note: 'planta（楼层）→ piso；注意 piso 在西班牙指「公寓」' } }
         ]
       },
       {
@@ -1266,11 +1289,11 @@ const scenarios = [
         title: '预约门诊',
         lines: [
           { speaker: 'A', es: 'Hola, quisiera pedir una cita con el médico.', cn: '你好，我想预约看医生。' },
-          { speaker: 'B', es: '¿Tiene tarjeta sanitaria?', cn: '您有医保卡吗？', region: 'es' },
+          { speaker: 'B', es: '¿Tiene tarjeta sanitaria?', cn: '您有医保卡吗？', region: 'es', alt: { region: 'latam', es: '¿Tiene seguro médico?', note: 'tarjeta sanitaria 是西班牙公费医疗卡，拉美多为 seguro médico' } },
           { speaker: 'A', es: 'Sí, soy estudiante y tengo el seguro universitario.', cn: '有的，我是学生，有大学保险。' },
           { speaker: 'B', es: 'Perfecto. ¿Qué síntomas tiene?', cn: '好的。您有什么症状？' },
           { speaker: 'A', es: 'Fiebre alta y dolor de estómago desde hace tres días.', cn: '高烧和胃痛已经三天了。', practice: { cn: '头痛和发烧已经两天了。', answer: 'Dolor de cabeza y fiebre desde hace dos días.' } },
-          { speaker: 'B', es: 'Le doy una cita hoy a las cuatro con el doctor García. Consultorio tres, segunda planta.', cn: '给您约今天四点García医生。三楼三号诊室。', region: 'es' }
+          { speaker: 'B', es: 'Le doy una cita hoy a las cuatro con el doctor García. Consultorio tres, segunda planta.', cn: '给您约今天四点García医生。三楼三号诊室。', region: 'es', alt: { region: 'latam', es: 'Le doy una cita hoy a las cuatro con el doctor García. Consultorio tres, segundo piso.', note: 'planta（楼层）→ piso' } }
         ]
       },
       {
@@ -1306,7 +1329,7 @@ const scenarios = [
         title: '新生报到',
         lines: [
           { speaker: 'A', es: 'Hola, soy estudiante nuevo. ¿Dónde puedo recoger mi tarjeta de estudiante?', cn: '你好，我是新生。在哪里领学生卡？', practice: { cn: '在哪里领课程表？', answer: '¿Dónde puedo recoger mi horario de clases?' } },
-          { speaker: 'B', es: 'En la secretaría, segunda planta del edificio central.', cn: '在教务处，主楼二层。', region: 'es' },
+          { speaker: 'B', es: 'En la secretaría, segunda planta del edificio central.', cn: '在教务处，主楼二层。', region: 'es', alt: { region: 'latam', es: 'En la secretaría, segundo piso del edificio central.', note: 'planta（楼层）→ piso' } },
           { speaker: 'A', es: '¿Qué documentos necesito?', cn: '需要什么材料？' },
           { speaker: 'B', es: 'Su pasaporte, la carta de admisión y dos fotos tamaño carné.', cn: '护照、录取通知书和两张证件照。' },
           { speaker: 'A', es: '¿Dónde está la biblioteca?', cn: '图书馆在哪里？' },
@@ -1332,14 +1355,14 @@ const scenarios = [
           { speaker: 'A', es: 'Sí, aquí tiene. ¿Cuánto tiempo puedo tenerlo?', cn: '有的，给您。我能借多久？' },
           { speaker: 'B', es: 'Quince días. Puede renovarlo una vez por otros quince días.', cn: '15天。可以续借一次，再加15天。' },
           { speaker: 'A', es: '¿Dónde están los libros de gramática española?', cn: '西班牙语语法书在哪里？', practice: { cn: '西班牙语小说在哪里？', answer: '¿Dónde están las novelas en español?' } },
-          { speaker: 'B', es: 'En la sección de lenguas, tercera planta, pasillo B.', cn: '在语言区，三楼，B通道。', region: 'es' }
+          { speaker: 'B', es: 'En la sección de lenguas, tercera planta, pasillo B.', cn: '在语言区，三楼，B通道。', region: 'es', alt: { region: 'latam', es: 'En la sección de lenguas, tercer piso, pasillo B.', note: 'planta（楼层）→ piso' } }
         ]
       },
       {
         title: '询问教学楼',
         lines: [
           { speaker: 'A', es: 'Perdone, ¿sabe dónde está el aula 204?', cn: '打扰一下，您知道204教室在哪里吗？' },
-          { speaker: 'B', es: 'Sí, en el edificio de letras, segunda planta.', cn: '知道，在文学院楼二层。' },
+          { speaker: 'B', es: 'Sí, en el edificio de letras, segunda planta.', cn: '知道，在文学院楼二层。', region: 'es', alt: { region: 'latam', es: 'Sí, en el edificio de letras, segundo piso.', note: 'planta（楼层）→ piso' } },
           { speaker: 'A', es: '¿Es este edificio?', cn: '是这栋楼吗？' },
           { speaker: 'B', es: 'No, el de letras está al otro lado del jardín. Siga por este camino y gire a la derecha.', cn: '不是，文学院楼在花园另一边。沿着这条路走然后右转。' },
           { speaker: 'A', es: 'Muchas gracias.', cn: '非常感谢。' }
@@ -1665,6 +1688,340 @@ const vocabData = {
 
 // Grammar breakdowns for key sentences
 const grammarData = {
+  // ===== 日常社交 =====
+  'Muy bien, gracias. ¿Y tú?': { blocks: [
+    { text: 'Muy bien', type: 'fixed', pos: '副词短语', meaning: '很好（回答 ¿Cómo estás? 的标准说法）', replaceable: true },
+    { text: 'gracias', type: 'word', pos: '感谢语', meaning: '谢谢', replaceable: false },
+    { text: '¿Y tú?', type: 'fixed', pos: '反问句', meaning: '你呢？（把问题抛回对方）', replaceable: true }
+  ]},
+  '¡Qué calor hace hoy!': { blocks: [
+    { text: '¡Qué', type: 'grammar', pos: '感叹词', meaning: '多么（引导感叹句，后接名词或形容词）', replaceable: false },
+    { text: 'calor', type: 'word', pos: '阳性名词', meaning: '热（西语说「天气热」用名词而非形容词）', replaceable: true },
+    { text: 'hace', type: 'grammar', pos: '动词 hacer', meaning: '第三人称单数现在时。天气表达固定用 hacer', replaceable: false },
+    { text: 'hoy', type: 'word', pos: '时间副词', meaning: '今天', replaceable: true }
+  ]},
+  'Bueno, me tengo que ir.': { blocks: [
+    { text: 'Bueno', type: 'fixed', pos: '话语标记', meaning: '好吧（用于转折、准备结束对话）', replaceable: false },
+    { text: 'me tengo que', type: 'grammar', pos: 'tener que + 原形', meaning: '第一人称单数现在时，必须。me 是强调用法', replaceable: false },
+    { text: 'ir', type: 'word', pos: '动词原形', meaning: '走、去（tener que 后必须用原形）', replaceable: true }
+  ]},
+  '¿Qué planes tienes para el fin de semana?': { blocks: [
+    { text: '¿Qué', type: 'grammar', pos: '疑问形容词', meaning: '什么（修饰后面的名词）', replaceable: false },
+    { text: 'planes', type: 'word', pos: '阳性名词复数', meaning: '计划', replaceable: true },
+    { text: 'tienes', type: 'grammar', pos: '动词 tener', meaning: '第二人称单数现在时，有（不规则变位 e→ie）', replaceable: false },
+    { text: 'para el fin de semana', type: 'fixed', pos: '介词短语', meaning: '在周末（para 表用途/时间指向）', replaceable: true }
+  ]},
+  '¿A qué te dedicas?': { blocks: [
+    { text: '¿A qué', type: 'grammar', pos: '介词+疑问词', meaning: '从事什么（dedicarse a 要求介词 a 提前）', replaceable: false },
+    { text: 'te dedicas', type: 'grammar', pos: '自反动词 dedicarse', meaning: '第二人称单数现在时，从事。问职业的自然说法', replaceable: false }
+  ]},
+  'Encantado de conocerte.': { blocks: [
+    { text: 'Encantado', type: 'word', pos: '形容词', meaning: '很高兴（男性说 encantado，女性说 encantada）', replaceable: true },
+    { text: 'de', type: 'grammar', pos: '介词', meaning: 'encantado de + 原形，固定搭配', replaceable: false },
+    { text: 'conocerte', type: 'grammar', pos: '原形+宾格代词', meaning: 'conocer（认识）+ te（你），代词后置并连写', replaceable: false }
+  ]},
+  // ===== 餐厅点餐 =====
+  'Buenas tardes. Mesa para dos, por favor.': { blocks: [
+    { text: 'Buenas tardes', type: 'fixed', pos: '问候语', meaning: '下午好（阴性复数，固定形式）', replaceable: true },
+    { text: 'Mesa', type: 'word', pos: '阴性名词', meaning: '桌子（点座位时习惯省略冠词）', replaceable: false },
+    { text: 'para dos', type: 'fixed', pos: '介词短语', meaning: '两位用（para 表用途）', replaceable: true },
+    { text: 'por favor', type: 'fixed', pos: '礼貌用语', meaning: '请', replaceable: false }
+  ]},
+  '¿Podemos ver el menú?': { blocks: [
+    { text: '¿Podemos', type: 'grammar', pos: '动词 poder', meaning: '第一人称复数现在时，我们能否', replaceable: false },
+    { text: 'ver', type: 'word', pos: '动词原形', meaning: '看（poder 后接原形）', replaceable: true },
+    { text: 'el menú', type: 'word', pos: '阳性名词', meaning: '菜单', replaceable: true }
+  ]},
+  'Quiero una paella y una ensalada.': { blocks: [
+    { text: 'Quiero', type: 'grammar', pos: '动词 querer', meaning: '第一人称单数现在时，想要（不规则 e→ie）', replaceable: false },
+    { text: 'una paella', type: 'word', pos: '阴性名词', meaning: '一份海鲜饭（点菜用不定冠词）', replaceable: true },
+    { text: 'y', type: 'grammar', pos: '连词', meaning: '和', replaceable: false },
+    { text: 'una ensalada', type: 'word', pos: '阴性名词', meaning: '一份沙拉', replaceable: true }
+  ]},
+  'Quédese con el cambio.': { blocks: [
+    { text: 'Quédese', type: 'grammar', pos: 'quedarse 的 usted 命令式', meaning: '您留着（自反代词 se 后置连写）', replaceable: false },
+    { text: 'con el cambio', type: 'fixed', pos: '介词短语', meaning: '零钱（quedarse con = 留下、保留）', replaceable: true }
+  ]},
+  'La comida estaba deliciosa.': { blocks: [
+    { text: 'La comida', type: 'word', pos: '阴性名词', meaning: '饭菜', replaceable: true },
+    { text: 'estaba', type: 'grammar', pos: '动词 estar', meaning: '第三人称单数未完成过去时。评价当时状态用 estar 而非 ser', replaceable: false },
+    { text: 'deliciosa', type: 'ending', pos: '形容词', meaning: '美味的。词尾 -a 与阴性 comida 一致', replaceable: true }
+  ]},
+  'Disculpe, tengo alergia a los frutos secos.': { blocks: [
+    { text: 'Disculpe', type: 'grammar', pos: 'disculpar 的 usted 命令式', meaning: '打扰一下（对陌生人用 usted 形式）', replaceable: false },
+    { text: 'tengo', type: 'grammar', pos: '动词 tener', meaning: '第一人称单数现在时，有（不规则 tengo）', replaceable: false },
+    { text: 'alergia a', type: 'fixed', pos: '名词+介词', meaning: '对……过敏（固定要求介词 a）', replaceable: false },
+    { text: 'los frutos secos', type: 'word', pos: '阳性名词复数', meaning: '坚果', replaceable: true }
+  ]},
+  'Quisiera reservar una mesa para cuatro.': { blocks: [
+    { text: 'Quisiera', type: 'grammar', pos: 'querer 的虚拟式未完成过去时', meaning: '我想要。比 quiero 更客气，预订与请求时的首选说法', replaceable: false },
+    { text: 'reservar', type: 'word', pos: '动词原形', meaning: '预订', replaceable: true },
+    { text: 'una mesa', type: 'word', pos: '阴性名词', meaning: '一张桌子', replaceable: true },
+    { text: 'para cuatro', type: 'fixed', pos: '介词短语', meaning: '四人用', replaceable: true }
+  ]},
+  // ===== 购物买东西 =====
+  '¿Tiene una talla más grande?': { blocks: [
+    { text: '¿Tiene', type: 'grammar', pos: '动词 tener', meaning: '第三人称单数现在时，此处用于 usted（您有吗）', replaceable: false },
+    { text: 'una talla', type: 'word', pos: '阴性名词', meaning: '一个尺码', replaceable: true },
+    { text: 'más grande', type: 'grammar', pos: '比较级', meaning: '更大的（más + 形容词构成比较级）', replaceable: true }
+  ]},
+  '¿Puede bajar un poco el precio?': { blocks: [
+    { text: '¿Puede', type: 'grammar', pos: '动词 poder', meaning: '第三人称单数现在时，用于 usted（您能否）', replaceable: false },
+    { text: 'bajar', type: 'word', pos: '动词原形', meaning: '降低', replaceable: true },
+    { text: 'un poco', type: 'fixed', pos: '副词短语', meaning: '一点点（软化请求的语气）', replaceable: false },
+    { text: 'el precio', type: 'word', pos: '阳性名词', meaning: '价格', replaceable: true }
+  ]},
+  'Me gustaría devolver esto.': { blocks: [
+    { text: 'Me gustaría', type: 'grammar', pos: 'gustar 的条件式', meaning: '我想要。gustar 句型主语是后面的动作，me 是间接宾语，字面为「……会让我喜欢」', replaceable: false },
+    { text: 'devolver', type: 'word', pos: '动词原形', meaning: '退还', replaceable: true },
+    { text: 'esto', type: 'word', pos: '中性指示代词', meaning: '这个（指不确定名称的东西）', replaceable: true }
+  ]},
+  '¿Me puede recomendar una crema hidratante?': { blocks: [
+    { text: 'Me', type: 'grammar', pos: '间接宾语代词', meaning: '给我（放在变位动词之前）', replaceable: false },
+    { text: 'puede', type: 'grammar', pos: '动词 poder', meaning: '第三人称单数现在时，用于 usted', replaceable: false },
+    { text: 'recomendar', type: 'word', pos: '动词原形', meaning: '推荐', replaceable: true },
+    { text: 'una crema hidratante', type: 'word', pos: '名词+形容词', meaning: '一支保湿霜（形容词后置）', replaceable: true }
+  ]},
+  '¿Y si compro dos?': { blocks: [
+    { text: '¿Y si', type: 'grammar', pos: '连词结构', meaning: '那如果……呢（提议、试探性砍价的常用开头）', replaceable: false },
+    { text: 'compro', type: 'grammar', pos: '动词 comprar', meaning: '第一人称单数现在时，我买（规则 -ar 变位）', replaceable: false },
+    { text: 'dos', type: 'word', pos: '数词', meaning: '两个', replaceable: true }
+  ]},
+  // ===== 问路与交通 =====
+  '¿Qué línea debo tomar para ir al museo?': { blocks: [
+    { text: '¿Qué línea', type: 'grammar', pos: '疑问形容词+名词', meaning: '哪条线路', replaceable: true },
+    { text: 'debo', type: 'grammar', pos: '动词 deber', meaning: '第一人称单数现在时，应该（后接原形）', replaceable: false },
+    { text: 'tomar', type: 'word', pos: '动词原形', meaning: '乘坐', replaceable: true },
+    { text: 'para ir al museo', type: 'fixed', pos: 'para+原形', meaning: '为了去博物馆。al = a + el（缩合）', replaceable: true }
+  ]},
+  '¿Puede llevarme al aeropuerto?': { blocks: [
+    { text: '¿Puede', type: 'grammar', pos: '动词 poder', meaning: '第三人称单数现在时，用于 usted', replaceable: false },
+    { text: 'llevarme', type: 'grammar', pos: '原形+宾格代词', meaning: 'llevar（带、送）+ me（我）。代词可后置连写，也可写成 ¿Me puede llevar?', replaceable: false },
+    { text: 'al aeropuerto', type: 'fixed', pos: '介词缩合', meaning: '到机场。a + el = al', replaceable: true }
+  ]},
+  'Quisiera alquilar un coche.': { blocks: [
+    { text: 'Quisiera', type: 'grammar', pos: 'querer 的虚拟式未完成过去时', meaning: '我想要（客气说法）', replaceable: false },
+    { text: 'alquilar', type: 'word', pos: '动词原形', meaning: '租', replaceable: true },
+    { text: 'un coche', type: 'word', pos: '阳性名词', meaning: '一辆车（拉美多用 un carro / un auto）', replaceable: true }
+  ]},
+  '¿Cuánto tiempo de demora hay?': { blocks: [
+    { text: '¿Cuánto tiempo', type: 'grammar', pos: '疑问词+名词', meaning: '多长时间。cuánto 与阳性 tiempo 保持一致', replaceable: true },
+    { text: 'de demora', type: 'word', pos: '介词短语', meaning: '延误的', replaceable: true },
+    { text: 'hay', type: 'grammar', pos: '动词 haber 的无人称形式', meaning: '有。永远只用 hay 这一个形式，不随数变化', replaceable: false }
+  ]},
+  // ===== 美食推荐 =====
+  '¿Cuál es la especialidad de esta ciudad?': { blocks: [
+    { text: '¿Cuál', type: 'grammar', pos: '疑问代词', meaning: '哪一个。在已知范围内选择时用 cuál，不用 qué', replaceable: false },
+    { text: 'es', type: 'grammar', pos: '动词 ser', meaning: '第三人称单数现在时。表本质属性用 ser', replaceable: false },
+    { text: 'la especialidad', type: 'word', pos: '阴性名词', meaning: '特色菜', replaceable: true },
+    { text: 'de esta ciudad', type: 'fixed', pos: '介词+指示形容词', meaning: '这座城市的。esta 与阴性 ciudad 一致', replaceable: true }
+  ]},
+  '¿Dónde puedo probar el mejor gazpacho?': { blocks: [
+    { text: '¿Dónde', type: 'grammar', pos: '疑问副词', meaning: '在哪里', replaceable: false },
+    { text: 'puedo', type: 'grammar', pos: '动词 poder', meaning: '第一人称单数现在时（o→ue 不规则）', replaceable: false },
+    { text: 'probar', type: 'word', pos: '动词原形', meaning: '尝', replaceable: true },
+    { text: 'el mejor gazpacho', type: 'grammar', pos: '最高级', meaning: '最好的冷汤。mejor 是 bueno 的不规则最高级，加定冠词表示「最」', replaceable: true }
+  ]},
+  '¿A qué hora abre el mercado?': { blocks: [
+    { text: '¿A qué hora', type: 'fixed', pos: '疑问短语', meaning: '几点（问时间点固定用介词 a）', replaceable: false },
+    { text: 'abre', type: 'grammar', pos: '动词 abrir', meaning: '第三人称单数现在时，开门（规则 -ir 变位）', replaceable: false },
+    { text: 'el mercado', type: 'word', pos: '阳性名词', meaning: '市场', replaceable: true }
+  ]},
+  '¿Estas naranjas son de aquí?': { blocks: [
+    { text: 'Estas naranjas', type: 'ending', pos: '指示形容词+名词', meaning: '这些橙子。estas 的阴性复数词尾与 naranjas 一致', replaceable: true },
+    { text: 'son', type: 'grammar', pos: '动词 ser', meaning: '第三人称复数现在时。表产地、来源用 ser', replaceable: false },
+    { text: 'de aquí', type: 'fixed', pos: '介词短语', meaning: '本地的', replaceable: true }
+  ]},
+  // ===== 机场 & 出入境 =====
+  '¿Puedo llevar una maleta de veinte kilos?': { blocks: [
+    { text: '¿Puedo', type: 'grammar', pos: '动词 poder', meaning: '第一人称单数现在时，我能否', replaceable: false },
+    { text: 'llevar', type: 'word', pos: '动词原形', meaning: '携带', replaceable: true },
+    { text: 'una maleta', type: 'word', pos: '阴性名词', meaning: '一个行李箱', replaceable: true },
+    { text: 'de veinte kilos', type: 'fixed', pos: '介词短语', meaning: '二十公斤的（de 表属性、规格）', replaceable: true }
+  ]},
+  '¿Tiene algo que declarar?': { blocks: [
+    { text: '¿Tiene', type: 'grammar', pos: '动词 tener', meaning: '第三人称单数现在时，用于 usted', replaceable: false },
+    { text: 'algo', type: 'word', pos: '不定代词', meaning: '某样东西', replaceable: true },
+    { text: 'que declarar', type: 'grammar', pos: 'que + 原形', meaning: '需要申报的。algo que + 原形表示「有待做的事」', replaceable: false }
+  ]},
+  '¿A qué hora empieza el embarque?': { blocks: [
+    { text: '¿A qué hora', type: 'fixed', pos: '疑问短语', meaning: '几点', replaceable: false },
+    { text: 'empieza', type: 'grammar', pos: '动词 empezar', meaning: '第三人称单数现在时，开始（不规则 e→ie）', replaceable: false },
+    { text: 'el embarque', type: 'word', pos: '阳性名词', meaning: '登机', replaceable: true }
+  ]},
+  '¿Me pueden avisar si hay más cambios?': { blocks: [
+    { text: 'Me', type: 'grammar', pos: '间接宾语代词', meaning: '通知我', replaceable: false },
+    { text: 'pueden', type: 'grammar', pos: '动词 poder', meaning: '第三人称复数现在时，用于 ustedes（你们能否）', replaceable: false },
+    { text: 'avisar', type: 'word', pos: '动词原形', meaning: '通知', replaceable: true },
+    { text: 'si hay más cambios', type: 'grammar', pos: 'si 引导条件从句', meaning: '如果还有变动。hay 是 haber 的无人称形式', replaceable: false }
+  ]},
+  // ===== 酒店住宿 =====
+  'Tengo una reserva a nombre de Li.': { blocks: [
+    { text: 'Tengo', type: 'grammar', pos: '动词 tener', meaning: '第一人称单数现在时（不规则 tengo）', replaceable: false },
+    { text: 'una reserva', type: 'word', pos: '阴性名词', meaning: '一个预订', replaceable: true },
+    { text: 'a nombre de', type: 'fixed', pos: '介词短语', meaning: '以……的名义（固定搭配）', replaceable: false },
+    { text: 'Li', type: 'word', pos: '专有名词', meaning: '姓名', replaceable: true }
+  ]},
+  '¿Qué tipos de habitación tienen?': { blocks: [
+    { text: '¿Qué tipos', type: 'grammar', pos: '疑问形容词+名词复数', meaning: '哪些类型', replaceable: true },
+    { text: 'de habitación', type: 'fixed', pos: '介词短语', meaning: '房间的（此处 habitación 用单数表类别）', replaceable: true },
+    { text: 'tienen', type: 'grammar', pos: '动词 tener', meaning: '第三人称复数现在时，用于 ustedes（你们有）', replaceable: false }
+  ]},
+  'Quisiera pedir servicio de habitación, por favor.': { blocks: [
+    { text: 'Quisiera', type: 'grammar', pos: 'querer 的虚拟式未完成过去时', meaning: '我想要（客气说法）', replaceable: false },
+    { text: 'pedir', type: 'word', pos: '动词原形', meaning: '要求、点（e→i 类动词，此处为原形）', replaceable: true },
+    { text: 'servicio de habitación', type: 'fixed', pos: '名词短语', meaning: '客房服务', replaceable: true },
+    { text: 'por favor', type: 'fixed', pos: '礼貌用语', meaning: '请', replaceable: false }
+  ]},
+  '¿Es posible hacer el check-out más tarde?': { blocks: [
+    { text: '¿Es posible', type: 'fixed', pos: 'ser + 形容词', meaning: '是否可能（后接原形，用于礼貌请求）', replaceable: false },
+    { text: 'hacer', type: 'word', pos: '动词原形', meaning: '办理', replaceable: true },
+    { text: 'el check-out', type: 'word', pos: '外来语名词', meaning: '退房', replaceable: true },
+    { text: 'más tarde', type: 'grammar', pos: '比较级副词', meaning: '更晚一些', replaceable: true }
+  ]},
+  '¿Podría ser a las dos de la tarde?': { blocks: [
+    { text: '¿Podría', type: 'grammar', pos: 'poder 的条件式', meaning: '是否可以。条件式比现在时更委婉，是请求的最礼貌形式', replaceable: false },
+    { text: 'ser', type: 'word', pos: '动词原形', meaning: '是', replaceable: false },
+    { text: 'a las dos', type: 'fixed', pos: '时间表达', meaning: '在两点。钟点用阴性定冠词 la/las', replaceable: true },
+    { text: 'de la tarde', type: 'fixed', pos: '介词短语', meaning: '下午的（西语用 de la mañana/tarde/noche 区分上下午）', replaceable: true }
+  ]},
+  // ===== 银行 & 支付 =====
+  'Quisiera cambiar doscientos dólares.': { blocks: [
+    { text: 'Quisiera', type: 'grammar', pos: 'querer 的虚拟式未完成过去时', meaning: '我想要（客气说法）', replaceable: false },
+    { text: 'cambiar', type: 'word', pos: '动词原形', meaning: '兑换', replaceable: true },
+    { text: 'doscientos', type: 'ending', pos: '数词', meaning: '二百。百位数要与名词配性：doscientos dólares / doscientas libras', replaceable: true },
+    { text: 'dólares', type: 'word', pos: '阳性名词复数', meaning: '美元', replaceable: true }
+  ]},
+  '¿Cobran comisión?': { blocks: [
+    { text: '¿Cobran', type: 'grammar', pos: '动词 cobrar', meaning: '第三人称复数现在时，收取。用复数指「你们/这家机构」', replaceable: false },
+    { text: 'comisión', type: 'word', pos: '阴性名词', meaning: '手续费（此处不加冠词，泛指）', replaceable: true }
+  ]},
+  '¿Hay un cajero automático cerca de aquí?': { blocks: [
+    { text: '¿Hay', type: 'grammar', pos: 'haber 的无人称形式', meaning: '有吗。问存在只用 hay，不随人称与数变化', replaceable: false },
+    { text: 'un cajero automático', type: 'word', pos: '名词+形容词', meaning: '一台 ATM（形容词后置并与阳性单数一致）', replaceable: true },
+    { text: 'cerca de aquí', type: 'fixed', pos: '副词短语', meaning: '在这附近（cerca de 固定搭配）', replaceable: true }
+  ]},
+  '¿Cuál es el límite de retirada?': { blocks: [
+    { text: '¿Cuál', type: 'grammar', pos: '疑问代词', meaning: '多少、哪一个（后接 ser 时用 cuál 而非 qué）', replaceable: false },
+    { text: 'es', type: 'grammar', pos: '动词 ser', meaning: '第三人称单数现在时', replaceable: false },
+    { text: 'el límite', type: 'word', pos: '阳性名词', meaning: '限额', replaceable: true },
+    { text: 'de retirada', type: 'fixed', pos: '介词短语', meaning: '取款的', replaceable: true }
+  ]},
+  '¿Cuánto tarda una transferencia a China?': { blocks: [
+    { text: '¿Cuánto', type: 'grammar', pos: '疑问副词', meaning: '多久', replaceable: false },
+    { text: 'tarda', type: 'grammar', pos: '动词 tardar', meaning: '第三人称单数现在时，花费时间（规则 -ar 变位）', replaceable: false },
+    { text: 'una transferencia', type: 'word', pos: '阴性名词', meaning: '一笔转账', replaceable: true },
+    { text: 'a China', type: 'fixed', pos: '介词短语', meaning: '到中国（国名前一般不加冠词）', replaceable: true }
+  ]},
+  // ===== 药店 & 就医 =====
+  '¿Tiene algo para el dolor de cabeza?': { blocks: [
+    { text: '¿Tiene', type: 'grammar', pos: '动词 tener', meaning: '第三人称单数现在时，用于 usted', replaceable: false },
+    { text: 'algo', type: 'word', pos: '不定代词', meaning: '某种东西', replaceable: false },
+    { text: 'para', type: 'grammar', pos: '介词', meaning: '用于、针对（表用途）', replaceable: false },
+    { text: 'el dolor de cabeza', type: 'fixed', pos: '名词短语', meaning: '头痛。dolor de + 部位 是固定说法', replaceable: true }
+  ]},
+  'Llevo tres días con dolor de cabeza y tos.': { blocks: [
+    { text: 'Llevo', type: 'grammar', pos: '动词 llevar', meaning: '第一人称单数现在时。llevar + 时间段 表示「已经持续了多久」，这是描述症状时长的关键句型', replaceable: false },
+    { text: 'tres días', type: 'word', pos: '时间段', meaning: '三天', replaceable: true },
+    { text: 'con', type: 'grammar', pos: '介词', meaning: '带有（llevar + 时间 + con + 症状）', replaceable: false },
+    { text: 'dolor de cabeza y tos', type: 'word', pos: '名词短语', meaning: '头痛和咳嗽', replaceable: true }
+  ]},
+  'Quisiera pedir una cita con el médico.': { blocks: [
+    { text: 'Quisiera', type: 'grammar', pos: 'querer 的虚拟式未完成过去时', meaning: '我想要（客气说法）', replaceable: false },
+    { text: 'pedir una cita', type: 'fixed', pos: '动词短语', meaning: '预约（pedir cita 是固定搭配）', replaceable: false },
+    { text: 'con el médico', type: 'fixed', pos: '介词短语', meaning: '和医生（约见对象用 con）', replaceable: true }
+  ]},
+  '¿Puedo conducir si lo tomo?': { blocks: [
+    { text: '¿Puedo', type: 'grammar', pos: '动词 poder', meaning: '第一人称单数现在时，我能否', replaceable: false },
+    { text: 'conducir', type: 'word', pos: '动词原形', meaning: '开车（拉美多用 manejar）', replaceable: true },
+    { text: 'si', type: 'grammar', pos: '连词', meaning: '如果（引导条件从句，用陈述式）', replaceable: false },
+    { text: 'lo tomo', type: 'grammar', pos: '宾格代词+动词', meaning: 'lo 指代前文的药，放在变位动词之前', replaceable: false }
+  ]},
+  'Ese se toma después de las comidas.': { blocks: [
+    { text: 'Ese', type: 'word', pos: '指示代词', meaning: '那个（指前文提到的药）', replaceable: true },
+    { text: 'se toma', type: 'grammar', pos: '无人称被动 se', meaning: '（该药）要在……服用。se + 第三人称动词表示不指明施动者，说明书与医嘱常用', replaceable: false },
+    { text: 'después de las comidas', type: 'fixed', pos: '介词短语', meaning: '饭后（después de 固定搭配）', replaceable: true }
+  ]},
+  // ===== 校园日常 =====
+  'Quisiera matricularme en un curso de español intensivo.': { blocks: [
+    { text: 'Quisiera', type: 'grammar', pos: 'querer 的虚拟式未完成过去时', meaning: '我想要（客气说法）', replaceable: false },
+    { text: 'matricularme', type: 'grammar', pos: '自反动词原形+代词', meaning: 'matricularse（注册）+ me。原形带自反代词时后置连写', replaceable: false },
+    { text: 'en', type: 'grammar', pos: '介词', meaning: 'matricularse en = 报名参加', replaceable: false },
+    { text: 'un curso de español intensivo', type: 'word', pos: '名词短语', meaning: '一门西语强化课程', replaceable: true }
+  ]},
+  '¿Puedo hacer una prueba de nivel?': { blocks: [
+    { text: '¿Puedo', type: 'grammar', pos: '动词 poder', meaning: '第一人称单数现在时', replaceable: false },
+    { text: 'hacer', type: 'word', pos: '动词原形', meaning: '做（考试、测试用 hacer）', replaceable: true },
+    { text: 'una prueba de nivel', type: 'fixed', pos: '名词短语', meaning: '一次分级测试', replaceable: true }
+  ]},
+  '¿Cuánto tiempo puedo tenerlo?': { blocks: [
+    { text: '¿Cuánto tiempo', type: 'fixed', pos: '疑问短语', meaning: '多长时间', replaceable: false },
+    { text: 'puedo', type: 'grammar', pos: '动词 poder', meaning: '第一人称单数现在时', replaceable: false },
+    { text: 'tenerlo', type: 'grammar', pos: '原形+宾格代词', meaning: 'tener + lo（它，指那本书）。代词后置连写', replaceable: false }
+  ]},
+  '¿Cuándo nos reunimos para preparar el trabajo?': { blocks: [
+    { text: '¿Cuándo', type: 'grammar', pos: '疑问副词', meaning: '什么时候', replaceable: false },
+    { text: 'nos reunimos', type: 'grammar', pos: '自反动词 reunirse', meaning: '第一人称复数现在时，我们碰面。相互性自反用法', replaceable: false },
+    { text: 'para preparar', type: 'grammar', pos: 'para + 原形', meaning: '为了准备（表目的）', replaceable: false },
+    { text: 'el trabajo', type: 'word', pos: '阳性名词', meaning: '作业、课业项目', replaceable: true }
+  ]},
+  '¿Quién se encarga de la primera parte?': { blocks: [
+    { text: '¿Quién', type: 'grammar', pos: '疑问代词', meaning: '谁', replaceable: false },
+    { text: 'se encarga de', type: 'fixed', pos: '自反动词+介词', meaning: '负责（encargarse de 固定要求介词 de）', replaceable: false },
+    { text: 'la primera parte', type: 'ending', pos: '序数词+名词', meaning: '第一部分。primera 的阴性词尾与 parte 一致', replaceable: true }
+  ]},
+  // ===== 影院 & 演出 & 景点 =====
+  '¿Están en versión original o dobladas?': { blocks: [
+    { text: '¿Están', type: 'grammar', pos: '动词 estar', meaning: '第三人称复数现在时。表当前状态用 estar', replaceable: false },
+    { text: 'en versión original', type: 'fixed', pos: '介词短语', meaning: '原声版（西班牙影院常缩写为 V.O.）', replaceable: true },
+    { text: 'o', type: 'grammar', pos: '连词', meaning: '还是', replaceable: false },
+    { text: 'dobladas', type: 'ending', pos: '过去分词作形容词', meaning: '配音的。阴性复数词尾与 películas 一致', replaceable: true }
+  ]},
+  '¿Hay audioguía en chino?': { blocks: [
+    { text: '¿Hay', type: 'grammar', pos: 'haber 的无人称形式', meaning: '有吗', replaceable: false },
+    { text: 'audioguía', type: 'word', pos: '阴性名词', meaning: '语音导览（泛指时可不加冠词）', replaceable: true },
+    { text: 'en chino', type: 'fixed', pos: '介词短语', meaning: '中文的。语言前用 en，且语言名小写', replaceable: true }
+  ]},
+  '¿A qué hora cierra el museo?': { blocks: [
+    { text: '¿A qué hora', type: 'fixed', pos: '疑问短语', meaning: '几点', replaceable: false },
+    { text: 'cierra', type: 'grammar', pos: '动词 cerrar', meaning: '第三人称单数现在时，关门（不规则 e→ie）', replaceable: false },
+    { text: 'el museo', type: 'word', pos: '阳性名词', meaning: '博物馆', replaceable: true }
+  ]},
+  '¿Podría explicarme un poco sobre este cuadro?': { blocks: [
+    { text: '¿Podría', type: 'grammar', pos: 'poder 的条件式', meaning: '您能否（最礼貌的请求形式）', replaceable: false },
+    { text: 'explicarme', type: 'grammar', pos: '原形+间接宾语代词', meaning: 'explicar（解释）+ me（给我）', replaceable: false },
+    { text: 'un poco sobre', type: 'fixed', pos: '副词+介词', meaning: '关于……一点（sobre = 关于）', replaceable: false },
+    { text: 'este cuadro', type: 'ending', pos: '指示形容词+名词', meaning: '这幅画。este 与阳性单数一致', replaceable: true }
+  ]},
+  '¿Quedan entradas?': { blocks: [
+    { text: '¿Quedan', type: 'grammar', pos: '动词 quedar', meaning: '第三人称复数现在时，还剩。主语是后面的 entradas，动词随其变复数', replaceable: false },
+    { text: 'entradas', type: 'word', pos: '阴性名词复数', meaning: '门票（演出、景点票用 entrada；交通票用 billete/boleto）', replaceable: true }
+  ]},
+  // ===== 紧急求助 =====
+  'He perdido mi pasaporte. ¿Qué puedo hacer?': { blocks: [
+    { text: 'He perdido', type: 'grammar', pos: '现在完成时', meaning: 'haber 第一人称单数 he + 过去分词 perdido。西班牙描述刚发生的事偏好此时态，拉美多说 Perdí', replaceable: false },
+    { text: 'mi pasaporte', type: 'word', pos: '物主形容词+名词', meaning: '我的护照', replaceable: true },
+    { text: '¿Qué puedo hacer?', type: 'fixed', pos: '疑问句', meaning: '我能做什么（求助固定句）', replaceable: false }
+  ]},
+  'Estoy llamando al 112.': { blocks: [
+    { text: 'Estoy', type: 'grammar', pos: '动词 estar', meaning: '第一人称单数现在时', replaceable: false },
+    { text: 'llamando', type: 'grammar', pos: '现在分词', meaning: 'estar + 现在分词构成进行时，强调此刻正在做', replaceable: false },
+    { text: 'al 112', type: 'fixed', pos: '介词缩合', meaning: '打给 112（欧盟统一紧急电话）。a + el = al', replaceable: true }
+  ]},
+  'Perdone, ¿habla inglés o chino? Estoy perdido.': { blocks: [
+    { text: 'Perdone', type: 'grammar', pos: 'perdonar 的 usted 命令式', meaning: '打扰一下（对陌生人）', replaceable: false },
+    { text: 'habla', type: 'grammar', pos: '动词 hablar', meaning: '第三人称单数现在时，用于 usted（您说）', replaceable: false },
+    { text: 'inglés o chino', type: 'word', pos: '语言名', meaning: '英语或中文（语言名小写，且此处不加冠词）', replaceable: true },
+    { text: 'Estoy perdido', type: 'grammar', pos: 'estar + 过去分词', meaning: '我迷路了。临时状态用 estar；女性说 perdida', replaceable: false }
+  ]},
+
+
+
+
+
+
+
+
   '¿Cómo estás?': {
     blocks: [
       { text: '¿Cómo', type: 'word', pos: '疑问词', meaning: '怎样', replaceable: true },
@@ -1709,10 +2066,8 @@ const grammarData = {
   },
   '¿Puedo probármelo?': {
     blocks: [
-      { text: '¿Puedo', type: 'grammar', pos: '动词 poder', meaning: '第一人称现在时，能/可以', replaceable: false },
-      { text: 'probár', type: 'grammar', pos: '动词 probar', meaning: '试', replaceable: false },
-      { text: 'me', type: 'grammar', pos: '自反代词', meaning: '对我自己', replaceable: false },
-      { text: 'lo', type: 'grammar', pos: '宾格代词', meaning: '它（指衣服）', replaceable: false }
+      { text: '¿Puedo', type: 'grammar', pos: '动词 poder', meaning: '第一人称单数现在时，能/可以', replaceable: false },
+      { text: 'probármelo', type: 'grammar', pos: '原形+自反代词+宾格代词', meaning: 'probar（试）+ me（我自己）+ lo（它，指衣服）。两个代词后置连写，重音因此需要写出来：probar → probármelo', replaceable: false }
     ]
   },
   '¿Cuánto cuesta esto?': {
@@ -1885,95 +2240,12 @@ if ('speechSynthesis' in window) {
   speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
 }
 
-// ==================== PROGRESS STORAGE ====================
-
-// 统一前缀，避免与同域下其它 GitHub Pages 项目冲突
-const STORE_PREFIX = 'ev:';
-
-// Safari 隐私模式下读写 localStorage 会抛异常，全部降级为「不记录」
-function storeGet(key, fallback) {
-  try {
-    const raw = localStorage.getItem(STORE_PREFIX + key);
-    return raw === null ? fallback : JSON.parse(raw);
-  } catch (e) {
-    return fallback;
-  }
-}
-
-function storeSet(key, value) {
-  try {
-    localStorage.setItem(STORE_PREFIX + key, JSON.stringify(value));
-  } catch (e) {
-    // 忽略：隐私模式或配额不足时不影响正常使用
-  }
-}
-
-let visitedDialogues = storeGet('visited', []);
-let favorites = storeGet('favorites', []);
-
-function markDialogueVisited(scenarioId, di) {
-  const key = `${scenarioId}#${di}`;
-  if (visitedDialogues.includes(key)) return;
-  visitedDialogues.push(key);
-  storeSet('visited', visitedDialogues);
-  renderScenarioGrid();
-  renderResumeBar();
-}
-
-function scenarioProgress(scenario) {
-  const done = scenario.dialogues.filter(
-    (_, di) => visitedDialogues.includes(`${scenario.id}#${di}`)
-  ).length;
-  return { done, total: scenario.dialogues.length };
-}
-
-function isFavorite(scenarioId, di, li) {
-  return favorites.includes(`${scenarioId}#${di}#${li}`);
-}
-
-function toggleFavorite(di, li, btn) {
-  const key = `${currentScenarioId}#${di}#${li}`;
-  const at = favorites.indexOf(key);
-  if (at === -1) {
-    favorites.push(key);
-    showBanner('已收藏这句');
-  } else {
-    favorites.splice(at, 1);
-    showBanner('已取消收藏');
-  }
-  storeSet('favorites', favorites);
-  btn.classList.toggle('active', at === -1);
-}
-
-function renderResumeBar() {
-  const lastId = storeGet('lastScene', null);
-  const scenario = scenarios.find(s => s.id === lastId);
-  const bar = document.getElementById('resumeBar');
-  if (!scenario) {
-    bar.style.display = 'none';
-    return;
-  }
-  const { done, total } = scenarioProgress(scenario);
-  document.getElementById('resumeText').textContent =
-    `上次在学「${scenario.icon} ${scenario.title}」，已看 ${done}/${total} 组对话`;
-  bar.style.display = 'flex';
-}
-
-function resumeLastScene() {
-  const lastId = storeGet('lastScene', null);
-  if (lastId) openScenario(lastId);
-}
-
 // ==================== TAB SWITCHING ====================
 
 let currentTab = 'home';
 
 function switchTab(tabId) {
   currentTab = tabId;
-  if (tabId === 'home') {
-    renderScenarioGrid();
-    renderResumeBar();
-  }
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
   const tabEl = document.getElementById('tab-' + tabId);
@@ -1987,22 +2259,14 @@ function switchTab(tabId) {
 
 function renderScenarioGrid() {
   const grid = document.getElementById('scenarioGrid');
-  grid.innerHTML = scenarios.map(s => {
-    const { done, total } = scenarioProgress(s);
-    const pct = total === 0 ? 0 : Math.round((done / total) * 100);
-    return `
+  grid.innerHTML = scenarios.map(s => `
     <div class="scenario-card" onclick="openScenario('${s.id}')">
       <span class="card-badge">${s.badge}</span>
       <div class="card-icon">${s.icon}</div>
       <h3>${s.title}</h3>
       <p>${s.desc}</p>
-      <div class="card-progress">
-        <span>已学 ${done}/${total}</span>
-        <div class="progress-bar"><span style="width:${pct}%"></span></div>
-      </div>
     </div>
-  `;
-  }).join('');
+  `).join('');
 }
 
 // ==================== ALPHABET ====================
@@ -2455,11 +2719,6 @@ function openScenario(id) {
   const scenario = scenarios.find(s => s.id === id);
   if (!scenario) return;
 
-  storeSet('lastScene', id);
-  renderResumeBar();
-
-
-
   document.getElementById('detailTitle').textContent = scenario.icon + ' ' + scenario.title;
   document.getElementById('detailSubtitle').textContent = scenario.desc;
 
@@ -2497,8 +2756,8 @@ function renderDetailContent(scenario) {
             ${hasGrammar ? `<button class="sentence-btn" onclick="event.stopPropagation();toggleGrammar(${di},${li})">&#129513; 语法拆解</button>` : ''}
             ${hasSwap ? `<button class="sentence-btn" onclick="event.stopPropagation();toggleSwap(${di},${li})">&#128260; 换词造句</button>` : ''}
             ${hasPractice ? `<button class="sentence-btn" onclick="event.stopPropagation();togglePractice(${di},${li})">&#9999;&#65039; 练习</button>` : ''}
-            <button class="sentence-btn fav-btn ${isFavorite(scenario.id, di, li) ? 'active' : ''}" onclick="event.stopPropagation();toggleFavorite(${di},${li},this)">&#11088; 收藏</button>
           </div>
+          ${line.alt ? renderAltRegion(line.alt) : ''}
           ${hasGrammar ? renderGrammarPanel(di, li, grammarKey) : ''}
           ${hasSwap ? renderSwapPanel(di, li, swapKey) : ''}
           ${renderPracticePanel(di, li, line.practice)}
@@ -2514,9 +2773,19 @@ function renderDetailContent(scenario) {
 function toggleSentence(di, li) {
   const el = document.getElementById(`sent-${di}-${li}`);
   el.classList.toggle('expanded');
-  if (el.classList.contains('expanded')) {
-    markDialogueVisited(currentScenarioId, di);
-  }
+}
+
+// 拉美 / 西班牙说法对照条。仅当该句数据带 alt 字段时渲染。
+function renderAltRegion(alt) {
+  const flag = alt.region === 'latam' ? '&#127758;' : '&#127466;&#127480;';
+  const label = alt.region === 'latam' ? '拉美说法' : '西班牙说法';
+  return `
+    <div class="alt-region" onclick="event.stopPropagation();">
+      <span class="alt-label">${flag} ${label}</span>
+      <span class="alt-es">${esc(alt.es)}</span>
+      ${alt.note ? `<span class="alt-note">（${esc(alt.note)}）</span>` : ''}
+      <button class="sentence-btn" onclick="speak('${jsAttr(alt.es)}')">&#128266; 听发音</button>
+    </div>`;
 }
 
 function renderGrammarPanel(di, li, key) {
@@ -2654,11 +2923,226 @@ function showBanner(msg) {
   setTimeout(() => banner.classList.remove('show'), 2000);
 }
 
+// ==================== REGION GUIDE ====================
+
+const regionData = {
+  intro: `本项目的对话以<strong>西班牙西语</strong>为主（数据事实如此，请据此选择学习重点）。
+    带 🇪🇸 标记的句子表示该说法在西班牙常用，展开句子可看到对应的拉美说法。<br><br>
+    需要提醒的是：<strong>「拉美西语」并不是一种统一的语言</strong>。墨西哥、阿根廷、哥伦比亚、
+    智利之间的差异，往往不小于西班牙与墨西哥之间的差异。下面列出的是有较广共识的差异，
+    涉及具体用词禁忌时会标注到国家。`,
+
+  persons: [
+    {
+      title: '第二人称复数：vosotros vs ustedes',
+      desc: '这是最高频、最容易踩的差异。西班牙用 vosotros（非正式）与 ustedes（正式）区分；拉美几乎全部只用 ustedes，vosotros 的变位在日常几乎不出现。',
+      es: '¿Cómo estáis? / ¿Vosotros venís?',
+      latam: '¿Cómo están? / ¿Ustedes vienen?',
+      note: '对拉美人说 vosotros 不会听不懂，但会显得像在读教科书或模仿西班牙人。'
+    },
+    {
+      title: 'voseo：vos 及其专属变位',
+      desc: '阿根廷、乌拉圭、巴拉圭全境，以及中美洲（哥斯达黎加、危地马拉、洪都拉斯、尼加拉瓜）部分地区用 vos 代替 tú，且动词变位不同——重音落在词尾。',
+      es: 'tú tienes / tú eres / tú quieres / tú puedes',
+      latam: 'vos tenés / vos sos / vos querés / vos podés',
+      note: '命令式也不同：西班牙 ven / ten，voseo 地区 vení / tené。'
+    },
+    {
+      title: 'tú / usted 的使用频率',
+      desc: '西班牙对陌生人、店员、同龄人普遍用 tú，usted 用得较少，用多了反而显得疏远。哥伦比亚、哥斯达黎加、墨西哥等地 usted 使用频率明显更高，对陌生人默认 usted 更安全。',
+      es: '在酒吧对服务员：¿Me pones una caña?（用 tú）',
+      latam: '在墨西哥对服务员：¿Me puede traer una cerveza?（用 usted）',
+      note: '不确定时用 usted，被对方改口成 tú 再跟着改，这在任何地区都不会出错。'
+    }
+  ],
+
+  pronunciation: [
+    {
+      title: 'c（e/i 前）与 z：θ 音 vs s 音',
+      desc: '西班牙中北部把 c(e/i) 和 z 读成英语 think 的 θ 音（称 distinción）；拉美全部、以及西班牙南部与加那利群岛读成 s（称 seseo）。这是听感上最明显的区别。',
+      example: 'gracias、cerveza、zapato：西班牙 θ 音；拉美 s 音'
+    },
+    {
+      title: 'll 与 y：yeísmo 与阿根廷的 ʃ 音',
+      desc: '绝大多数地区 ll 和 y 发同一个音（yeísmo）。阿根廷、乌拉圭把它读成类似英语 sh/zh 的 ʃ / ʒ 音。',
+      example: 'calle、pollo、yo：多数地区近「亚」；布宜诺斯艾利斯近「沙/夏」'
+    },
+    {
+      title: '词尾 s 的弱化与脱落',
+      desc: '加勒比地区（古巴、多米尼加、波多黎各）与部分沿海地区常把音节尾的 s 弱化成送气甚至省略，初学者容易听不出复数。',
+      example: 'las casas 听起来接近 «la casa»；¿Cómo estás? 接近 «¿Cómo etá?»'
+    }
+  ],
+
+  tense: {
+    title: '现在完成时 vs 简单过去时',
+    desc: '描述「今天/刚刚」发生的事，西班牙偏好现在完成时（pretérito perfecto），拉美多数地区直接用简单过去时（pretérito indefinido）。两者语法都正确，只是习惯不同。',
+    es: 'Hoy he comido paella. / ¿Has visto a Juan?',
+    latam: 'Hoy comí paella. / ¿Viste a Juan?',
+    note: '在西班牙用简单过去时说今天的事，会被感觉「像拉美人」；反之在拉美用现在完成时会显得书面化。'
+  }
+};
+
+const regionVocab = [
+  {
+    group: '日常物品',
+    items: [
+      { cn: '手机', es: 'el móvil', latam: 'el celular' },
+      { cn: '电脑', es: 'el ordenador', latam: 'la computadora' },
+      { cn: '眼镜', es: 'las gafas', latam: 'los lentes / los anteojos' },
+      { cn: '圆珠笔', es: 'el bolígrafo', latam: 'la pluma / el lapicero / el birome（阿根廷）' },
+      { cn: '毛衣', es: 'el jersey', latam: 'el suéter / el pulóver' },
+      { cn: '手机充值', es: 'recargar el móvil', latam: 'recargar el celular / dar saldo' }
+    ]
+  },
+  {
+    group: '交通出行',
+    items: [
+      { cn: '车', es: 'el coche', latam: 'el carro / el auto' },
+      { cn: '开车', es: 'conducir', latam: 'manejar' },
+      { cn: '停车', es: 'aparcar', latam: 'estacionar / parquear' },
+      { cn: '车票', es: 'el billete', latam: 'el boleto / el pasaje' },
+      { cn: '公交车', es: 'el autobús', latam: 'el camión（墨西哥）/ la guagua（古巴、加那利）/ el colectivo（阿根廷）' },
+      { cn: '搭乘（公交）', es: 'coger el autobús', latam: 'tomar el autobús（见下方雷区）' }
+    ]
+  },
+  {
+    group: '餐饮食物',
+    items: [
+      { cn: '土豆', es: 'la patata', latam: 'la papa' },
+      { cn: '果汁', es: 'el zumo', latam: 'el jugo' },
+      { cn: '服务员', es: 'el camarero', latam: 'el mesero / el mozo（阿根廷）' },
+      { cn: '小生啤', es: 'una caña', latam: 'una cerveza（caña 在拉美不通用）' },
+      { cn: '牛油果', es: 'el aguacate', latam: 'el aguacate / la palta（南锥体）' },
+      { cn: '花生', es: 'el cacahuete', latam: 'el maní' },
+      { cn: '香蕉', es: 'el plátano', latam: 'la banana / el guineo' }
+    ]
+  },
+  {
+    group: '居住与生活',
+    items: [
+      { cn: '公寓', es: 'el piso', latam: 'el departamento / el apartamento' },
+      { cn: '楼层', es: 'la planta', latam: 'el piso（注意与上一条正好错位）' },
+      { cn: '人行道', es: 'la acera', latam: 'la banqueta（墨西哥）/ la vereda（南锥体）' },
+      { cn: '游泳池', es: 'la piscina', latam: 'la pileta（阿根廷）/ la alberca（墨西哥）' },
+      { cn: '冰箱', es: 'el frigorífico / la nevera', latam: 'el refrigerador / la refri' }
+    ]
+  },
+  {
+    group: '沟通与网络',
+    items: [
+      { cn: '好的 / 行', es: 'vale', latam: 'okey / bueno / dale（阿根廷）' },
+      { cn: '朋友（口语）', es: 'tío / tía', latam: 'güey（墨西哥）/ che、boludo（阿根廷）/ pana' },
+      { cn: '很酷', es: 'guay / molar', latam: 'chido（墨西哥）/ bacán / copado（阿根廷）' },
+      { cn: '工作（口语）', es: 'el curro', latam: 'el trabajo / la chamba（墨西哥）' }
+    ]
+  }
+];
+
+const regionWarnings = [
+  {
+    word: 'coger',
+    esMeaning: '在西班牙是极常用的动词，意为「拿、取、搭乘」：coger el autobús、coger un taxi。',
+    warn: '在多个拉美国家是粗俗语（指性行为），当面说会非常尴尬。当地改用 tomar 或 agarrar：tomar el autobús。',
+    where: '阿根廷、乌拉圭、墨西哥、委内瑞拉、巴拉圭等'
+  },
+  {
+    word: 'concha',
+    esMeaning: '在西班牙指贝壳，也是常见女性名字 Concha（Concepción 的昵称）。',
+    warn: '在南锥体是指女性生殖器的粗俗语，绝对不要用来称呼人。',
+    where: '阿根廷、乌拉圭、智利、秘鲁'
+  },
+  {
+    word: 'pico',
+    esMeaning: '在西班牙指鸟嘴、尖端，也指「零头」（treinta y pico = 三十几）。',
+    warn: '在智利是粗俗语。',
+    where: '智利'
+  },
+  {
+    word: 'bicho',
+    esMeaning: '在西班牙泛指小虫子。',
+    warn: '在波多黎各是粗俗语；在其他一些地区也有贬义。',
+    where: '波多黎各等'
+  },
+  {
+    word: 'guagua',
+    esMeaning: '在古巴、多米尼加、加那利群岛指「公交车」。',
+    warn: '在智利、厄瓜多尔、秘鲁等安第斯地区指「婴儿」——说「我要坐 guagua」会造成误解。',
+    where: '智利、厄瓜多尔、秘鲁、玻利维亚'
+  },
+  {
+    word: 'torta',
+    esMeaning: '在西班牙指一种扁面饼，也有「一巴掌」的口语义。',
+    warn: '在墨西哥指夹馅面包（三明治类），在南锥体指蛋糕——同一个词指三种不同的食物。',
+    where: '墨西哥、阿根廷、乌拉圭'
+  }
+];
+
+function renderRegionGuide() {
+  const container = document.getElementById('regionContent');
+  let html = `<div class="region-intro">${regionData.intro}</div>`;
+
+  const pairBlock = (item) => `
+    <div class="region-card">
+      <h4>${item.title}</h4>
+      <p>${item.desc}</p>
+      <div class="region-pair">
+        <div class="side-es">
+          <span class="side-label">&#127466;&#127480; 西班牙</span>${item.es}
+          <button class="sentence-btn" style="margin-top:6px;" onclick="speak('${jsAttr(item.es)}')">&#128266;</button>
+        </div>
+        <div class="side-latam">
+          <span class="side-label">&#127758; 拉美</span>${item.latam}
+          <button class="sentence-btn" style="margin-top:6px;" onclick="speak('${jsAttr(item.latam)}')">&#128266;</button>
+        </div>
+      </div>
+      ${item.note ? `<p>${item.note}</p>` : ''}
+    </div>`;
+
+  html += `<div class="region-section"><h3>&#128101; 人称与动词变位</h3>
+    ${regionData.persons.map(pairBlock).join('')}</div>`;
+
+  html += `<div class="region-section"><h3>&#128264; 发音差异</h3>
+    ${regionData.pronunciation.map(p => `
+      <div class="region-card">
+        <h4>${p.title}</h4>
+        <p>${p.desc}</p>
+        <p style="margin-top:8px;color:var(--secondary);">${p.example}</p>
+      </div>`).join('')}</div>`;
+
+  html += `<div class="region-section"><h3>&#9203; 时态使用习惯</h3>
+    ${pairBlock(regionData.tense)}</div>`;
+
+  html += `<div class="region-section"><h3>&#128214; 常用词对照</h3>
+    ${regionVocab.map(g => `
+      <div class="region-card">
+        <h4>${g.group}</h4>
+        <table class="region-table">
+          <thead><tr><th>中文</th><th>&#127466;&#127480; 西班牙</th><th>&#127758; 拉美</th></tr></thead>
+          <tbody>${g.items.map(it => `
+            <tr><td>${it.cn}</td><td>${it.es}</td><td>${it.latam}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`).join('')}</div>`;
+
+  html += `<div class="region-section"><h3>&#9888;&#65039; 用词雷区</h3>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:12px;">
+      同一个词在不同国家可能从日常用语变成粗俗语。出发前扫一眼这几个。</p>
+    ${regionWarnings.map(w => `
+      <div class="region-warn">
+        <h4>${w.word}</h4>
+        <p>${w.esMeaning}</p>
+        <p style="margin-top:6px;">${w.warn}</p>
+        <p style="margin-top:6px;">涉及地区：<span class="where">${w.where}</span></p>
+      </div>`).join('')}</div>`;
+
+  container.innerHTML = html;
+}
+
 // ==================== INIT ====================
 
 function init() {
   renderScenarioGrid();
-  renderResumeBar();
   renderAlphabet();
   renderNumbers();
   renderVocabFilter();
@@ -2666,6 +3150,7 @@ function init() {
   renderRpScenarioSelect();
   renderRpDialogueSelect();
   loadRpDialogue();
+  renderRegionGuide();
 }
 
 document.addEventListener('DOMContentLoaded', init);
