@@ -1,8 +1,28 @@
 # Espanol Vivo — 从真实场景开口说西班牙语
 
+[![Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://tongether.github.io/espanol-scenario-learn)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![No build](https://img.shields.io/badge/build-none%20required-blue)
+![Single file](https://img.shields.io/badge/architecture-single%20HTML%20file-lightgrey)
+
 一个面向中文母语者的西班牙语场景化学习工具。不用背单词书，直接走进 12 个真实场景，学即用。
 
 **在线体验**：[https://Tongether.github.io/espanol-scenario-learn](https://Tongether.github.io/espanol-scenario-learn)
+
+<!-- 录制 8-12 秒操作流后取消下面这行的注释：点场景 → 听发音 → 展开语法拆解 → 换词造句 -->
+<!-- ![Espanol Vivo 演示](docs/screenshots/demo.gif) -->
+
+---
+
+**English**: A scenario-based Spanish learning tool built for Chinese speakers. Instead of starting from the
+alphabet and grammar rules, it drops you straight into 12 real-life situations — airport check-in, ordering at a
+restaurant, describing symptoms at a pharmacy — with 72+ dialogues you can tap to hear pronunciation.
+
+- Colour-coded grammar breakdown: tap any sentence to split it into content words, grammar chunks and inflections
+- Word-swap drills that generate and speak new sentences from a fixed pattern
+- Letter and number pronunciation guides, a scenario-tagged mini dictionary, and a dialogue simulator
+- Progress and favourites are stored locally; installable to your home screen as a PWA
+- One self-contained HTML file, zero dependencies, no build step — open it and it works
 
 ---
 
@@ -27,6 +47,15 @@
 | **西语小词典** | 按场景分类的高频词汇，支持模糊搜索 |
 | **在线翻译** | 内置中文-西班牙语互译，支持语音朗读 |
 | **对话示范** | 选择场景和对话，模拟真实聊天流程练习 |
+| **学习进度** | 场景卡片显示已学进度，可收藏难句，重开页面可继续上次场景 |
+| **安装到桌面** | 支持 PWA，手机可「添加到主屏幕」以独立窗口打开 |
+
+<!-- 补 3 张静态截图后取消注释：场景对话页 / 语法拆解展开态 / 手机端窄屏 -->
+<!--
+| 场景对话 | 语法拆解 | 手机端 |
+|---|---|---|
+| ![](docs/screenshots/scenes.png) | ![](docs/screenshots/grammar.png) | ![](docs/screenshots/mobile.png) |
+-->
 
 ---
 
@@ -52,7 +81,9 @@
 - **纯前端**：HTML + CSS + JavaScript，零框架依赖
 - **单文件架构**：所有功能集成在一个 HTML 文件中，无需构建工具
 - **Web Speech API**：浏览器原生西班牙语语音合成
-- **LibreTranslate API**：开源翻译服务，支持中-西互译
+- **MyMemory API**：免费翻译接口，支持中-西互译（每日额度有限）
+- **LocalStorage**：本地记录学习进度与收藏，不上传任何数据
+- **PWA**：可添加到手机主屏幕，以独立窗口启动
 - **响应式布局**：适配手机、平板、桌面端
 
 ---
@@ -77,21 +108,21 @@ python -m http.server 8000
 | v1.3 | 词典增加搜索功能、内置在线翻译、角色扮演改名为对话示范 |
 | v1.4 | 修复字母卡片双例词问题、翻译 API 升级为 LibreTranslate |
 | v1.5 | **内容质量审核**：修正 21 处语法和表达错误，为西班牙特有词汇添加 🇪🇸 地域标注 |
+| v1.6 | 翻译接口迁移至 MyMemory（旧接口已失效）；新增学习进度记录与句子收藏；支持 PWA 安装；补齐 SEO / 社交分享元信息 |
 
 ---
 
-## 待办
+## Roadmap
 
-- [ ] 增加用户进度记录（LocalStorage）
-- [ ] 添加更多改词练习题
-- [ ] 支持收藏难句和生词
+- [ ] 收藏夹独立页面，支持复习已收藏的句子
 - [ ] 增加听力理解测试模式
+- [ ] 补充更多改词练习题
 
 ---
 
 ## 开源协议
 
-MIT License
+[MIT License](LICENSE)
 
 ---
 
